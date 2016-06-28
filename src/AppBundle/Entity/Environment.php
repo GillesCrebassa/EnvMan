@@ -47,12 +47,12 @@ class Environment
     {
         $this->envDetails = new ArrayCollection();
     }    
-
+/*
     public function __toString()
     {
            return "{$this->getName()} {$this->getDescription()}";
     }
-    
+*/    
     /**
      * Get id
      *
