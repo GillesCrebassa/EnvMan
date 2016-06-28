@@ -4,12 +4,14 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Environment
  *
  * @ORM\Table(name="environment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EnvironmentRepository")
+ * @UniqueEntity("name")
  */
 class Environment
 {

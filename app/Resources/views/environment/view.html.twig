@@ -4,10 +4,9 @@
  <div class="container">
 {{ form_start(form) }}
 {{ form_errors(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.description) }}
-
-    <button type="submit">back !</button>
+    {{ form_row(form.name, { 'attr':{'disabled':'disabled'} }) }}
+    {{ form_row(form.description, { 'attr':{'disabled':'disabled'} }) }}
+    {{ form_widget(form.save, { 'label': 'Return' }) }}
 {{ form_end(form) }}
     
 </div>

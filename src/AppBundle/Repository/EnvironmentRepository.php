@@ -27,6 +27,4 @@ class EnvironmentRepository extends \Doctrine\ORM\EntityRepository
             )
             ->getResult();
     }
-    
-    
 }

@@ -6,6 +6,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 //use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType ;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class EnvironmentType extends AbstractType
@@ -15,6 +17,8 @@ class EnvironmentType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('save', new SubmitType, array(
+                        'attr' => array('class' => 'save')))
         ;
     }
     
@@ -25,7 +29,6 @@ class EnvironmentType extends AbstractType
             'data_class' => 'AppBundle\Entity\Environment',
         ));
     }    
-    
 }
 
 ?>

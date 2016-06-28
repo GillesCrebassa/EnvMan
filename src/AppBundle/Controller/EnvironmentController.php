@@ -59,25 +59,27 @@ class EnvironmentController extends Controller
         $environment = new Environment();
         $form= $this->createForm(new EnvironmentType(), $environment);
 
-        $form->handleRequest($request);
+        if ($request->getMethod() == 'POST') {        
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            // the validation passed, do something with the $author object
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($environment);
-            $em->flush();
+            if ($form->isValid()) {
+                // the validation passed, do something with the $author object
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($environment);
+                $em->flush();
 
-            $this->addFlash(
-                    'success',
-                    'Your new environment were saved!'
-            );            
-            return $this->redirectToRoute('environment_summary');
-        }
-        else {
-            $this->addFlash(
-                    'warning',
-                    'some fields are not correct!'
-            );                        
+                $this->addFlash(
+                        'success',
+                        'Your new environment were saved!'
+                );            
+                return $this->redirectToRoute('environment_summary');
+            }
+            else {
+                $this->addFlash(
+                        'warning',
+                        'some fields are not correct!'
+                );                        
+            }
         }
         return $this->render('environment/add.html.twig', array(
             'form' => $form->createView(),
@@ -88,25 +90,77 @@ class EnvironmentController extends Controller
      * @Route("/environment/view/{envid}", name="environment_view")
      */
     
-    public function environmentViewAction($envid)
+    public function environmentViewAction($envid,Request $request)
     {
-
         $environment = new Environment();
         $environment = $this->getDoctrine()
             ->getRepository('AppBundle:Environment')
             ->find($envid);
+        $form= $this->createForm(new EnvironmentType(), $environment);
 
+        
         if (!$environment)
             throw $this->createNotFoundException(
                 'No environment linked to this id '.$envid
             );
-        
-        
-//return $this->redirectToRoute('homepage');        
-        
-        $form= $this->createForm(new EnvironmentType(), $environment);
+
+        if ($request->getMethod() == 'POST') {        
+            $form->handleRequest($request);
+            
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute('environment_summary');
+            }
+        }
         
         return $this->render('environment/view.html.twig', array(
+            'form' => $form->createView(),
+        ));
+        
+        
+    }
+
+    /**
+     * @Route("/environment/edit/{envid}", name="environment_edit")
+     */
+    public function environmentEditAction($envid,Request $request)
+    {
+        $environment = new Environment();
+        $environment = $this->getDoctrine()
+            ->getRepository('AppBundle:Environment')
+            ->find($envid);
+        $form= $this->createForm(new EnvironmentType(), $environment);
+
+        
+        if (!$environment)
+            throw $this->createNotFoundException(
+                'No environment linked to this id '.$envid
+            );
+
+        if ($request->getMethod() == 'POST') {        
+            $form->handleRequest($request);
+            
+            if ($form->get('save')->isClicked()) {
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($environment);
+                    $em->flush();
+
+                    $this->addFlash(
+                            'success',
+                            'Your new environment were Updated!'
+                    );            
+                    return $this->redirectToRoute('environment_summary');
+                }
+                else {
+                    $this->addFlash(
+                            'warning',
+                            'some fields are not correct!'
+                    );                        
+                }
+            }
+        }
+        
+        return $this->render('environment/edit.html.twig', array(
             'form' => $form->createView(),
         ));
         

@@ -8,10 +8,24 @@
     <br>
     <div class="row">
         <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <h1>Environments List</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 left">
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/environment/add"> Add</a></button>
+        </div>
+    </div>
+    <div class="row spacer">
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
             <table class="table table-bordered">
+{#
               <caption>
                 <strong>Environments List</strong></em>
               </caption>
+#}
              <thead>
                 <tr>
                   <th>Name</th>
@@ -25,8 +39,9 @@
                          <td>{{ environment.name }}</td>
                          <td>{{ environment.description }}</td>
                          <td>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-list  glyphicon-align-left"></span><a href="/environment/view/{{ environment.id }}">View</a></button>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-search glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}">Details</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign glyphicon-align-left"></span><a href="/environment/view/{{ environment.id }}"> View</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/environment/edit/{{ environment.id }}"> Edit</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-search glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}"> Details</a></button>
                          </td>
                      </tr>
         {% endfor %}      
