@@ -30,3 +30,7 @@ php app/console assets:install --symlink
 php app/console cache:clear
 php app/console assets:install --symlink
 php app/console assetic:dump
+
+
+git push https://github.com/GillesCrebassa/EnvMan.git
+git pull https://github.com/GillesCrebassa/EnvMan.git
