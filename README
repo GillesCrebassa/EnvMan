@@ -1,0 +1,32 @@
+# Install:
+
+fill the file app/config/parameters.yml for parameters database_*
+# to create new entity
+php app/console doctrine:generate:entity
+# when existing database
+
+#php app/console doctrine:database:drop --force
+php app/console doctrine:database:create
+php app/console doctrine:schema:update --force
+# generate repository /entity for one entity
+#php app/console doctrine:generate:entities AppBundle/Entity/Product
+# generate repository / entity / getter/setter for all entity
+#php app/console doctrine:generate:entities AppBundle
+
+# test link between tables:
+#php app/console doctrine:generate:entity --no-interaction \
+#    --entity="AppBundle:Category" \
+#    --fields="name:string(255)"
+
+
+# debug the routes
+php app/console debug:router --env=prod
+
+
+# for css , js ...
+
+php app/console assets:install --symlink
+
+php app/console cache:clear
+php app/console assets:install --symlink
+php app/console assetic:dump

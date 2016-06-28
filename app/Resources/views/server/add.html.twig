@@ -1,0 +1,16 @@
+{% extends "layout.html.twig" %}
+
+{% block body %}
+ <div class="container">
+{{ form_start(form) }}
+{{ form_errors(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.ip) }}
+    {{ form_row(form.os) }}
+    {{ form_row(form.active) }}
+
+    <button type="submit">create !</button>
+{{ form_end(form) }}
+    
+</div>
+{%  endblock body %}

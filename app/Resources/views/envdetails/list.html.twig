@@ -1,0 +1,43 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Environment Details Summary{% endblock %}
+
+{% block body %}
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-8 centered">
+            <table class="table table-bordered">
+              <caption>
+                <strong>Environments Details List for {{ environment.name }}</strong></em>
+              </caption>
+             <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Description</th>
+                  <th>Server Name</th>
+                  <th>user</th>
+                  <th>action</th>
+                </tr>
+              </thead>
+              <tbody>             
+        {% for envdetails_row in envdetails if envdetails_row %}
+                     <tr>
+                         <td>{{ envdetails_row.servertype }}</td>
+                         <td>{{ envdetails_row.description }}</td>
+                         <td>{{ envdetails_row.server.name }}</td>
+                         <td>{{ envdetails_row.user }}</td>
+                         <td>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-list  glyphicon-align-left"></span><a href="/envdetails/view/{{ environment.id }}">View</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-search glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}">Details</a></button>
+                         </td>
+                         
+                     </tr>
+        {% endfor %}      
+              </tbody>
+       </table>
+    </div><!-- end col-lg-8 -->
+  </div><!-- end row -->
+</div><!-- end container -->
+{%  endblock body %}

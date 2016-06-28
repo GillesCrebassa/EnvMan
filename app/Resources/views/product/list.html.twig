@@ -1,0 +1,37 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Products Summary{% endblock %}
+
+{% block body %}
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <table class="table table-bordered">
+              <caption>
+                <strong>Product List</strong></em>
+              </caption>
+             <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>             
+        {% for product in products if product %}
+                     <tr>
+                         <td>{{ product.name }}</td>
+                         <td>{{ product.description }}</td>
+                         <td>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/product/edit/{{ product.id }}">Edit</a></button>
+                         </td>
+                     </tr>
+        {% endfor %}      
+              </tbody>
+       </table>
+    </div><!-- end col-lg-8 -->
+  </div><!-- end row -->
+</div><!-- end container -->
+{%  endblock body %}

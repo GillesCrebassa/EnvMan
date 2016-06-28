@@ -1,0 +1,40 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Servers Summary{% endblock %}
+
+{% block body %}
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-lg-8 centered">
+            <table class="table table-bordered">
+              <caption>
+                <strong>Servers List</strong></em>
+              </caption>
+             <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>OS</th>
+                  <th>Active</th>
+                </tr>
+              </thead>
+              <tbody>             
+        {% for server in servers %}
+                     <tr>
+                         <td>{{ server.name }}</td>
+                         <td>{{ server.os }}</td>
+                         <td>{% if server.active %} 
+                             <span class="glyphicon glyphicon-ok"></span>
+                             {% else %} 
+                             <span class="glyphicon glyphicon-remove"></span>
+                             {% endif %}
+                         </td>
+                     </tr>
+        {% endfor %}      
+              </tbody>
+       </table>
+    </div><!-- end col-lg-8 -->
+  </div><!-- end row -->
+</div><!-- end container -->
+{%  endblock body %}
