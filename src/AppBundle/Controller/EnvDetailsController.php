@@ -17,45 +17,84 @@ use AppBundle\Form\ProductType;
 class EnvDetailsController extends Controller
 {
     /**
-     * @Route("/envdetails/{envid}", name="envdetails_summary")
+     * @Route("/envdetails/{envId}", name="envdetails_summary")
      */
-    public function envdetailsListAction($envid)
+    public function envdetailsListAction($envId)
     {
-/*
-        $envdetails = new EnvDetails();
-        $environment = new Environment();
- */
         $repository = $this->getDoctrine()->getRepository('AppBundle:EnvDetails');
-        $envdetails = $repository->findAllByIdJoinedToEnvironment($envid);
+        $envdetails = $repository->findAllByIdJoinedToEnvironment($envId);
         $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
-        $environment = $repository->find($envid);
-/*        
-        $envdetails = $environment->getEnvDetails();
-/*
-        if (!$environments) {
-            throw $this->createNotFoundException(
-                'No environment found'
-            );
-        }        
-*/
-/*        
-*/
-       var_dump('envname'.$environment->getName());
+        $environment = $repository->find($envId);
     
         return $this->render('envdetails/list.html.twig', array(
             'envdetails' => $envdetails,
             'environment' => $environment,
         ));
+    }
 
 
+    /**
+     * @Route("/envdetails/{envId}/add", name="envdetails_add")
+     */
+    public function envdetailsAddAction($envId,Request $request)
+    {
+        $envdetails = new EnvDetails();        
+        $form= $this->createForm(new EnvDetailsType(), $envdetails);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                // the validation passed, do something with the $author object
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($envdetails);
+                $em->flush();
+
+                $this->addFlash(
+                        'success',
+                        'Your new details of an environment were saved!'
+                );            
+                return $this->redirectToRoute('envdetails_summary', array('envId' => $envId));
+    }
+            else {
+                $this->addFlash(
+                        'warning',
+                        'some fields are not correct!'
+                );
+            }
+        }
+        return $this->render('envdetails/add.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
     
     
     /**
-     * @Route("/envdetails/{envid}/add", name="envdetails_add")
+     * @Route("/envdetails/{envId}/view/{endDetailsId}", name="envdetails_view")
      */
+    public function envdetailsViewAction($envId,Request $request)
+    {
     
-    public function envdetailsAddAction($envid,Request $request)
+        $envdetails = new EnvDetails();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:EnvDetails');
+        $envdetails = $repository->findAllByIdJoinedToEnvironment($envId);        
+        $form= $this->createForm(new EnvDetailsType(), $envdetails);
+
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->get('save')->isClicked()) {
+                return $this->redirectToRoute('envdetails_summary', array('envId' => $envId));
+            }
+        }
+        return $this->render('envdetails/view.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }    
+    /**
+     * @Route("/envdetails/{envId}/delete/{endDetailsId}", name="envdetails_delete")
+     */
+    public function envdetailsDeleteAction($envId,Request $request)
     {
 
         $envdetails = new envdetails();
@@ -81,7 +120,7 @@ class EnvDetailsController extends Controller
                     'some fields are not correct!'
             );                        
         }
-        return $this->render('envdetails/add.html.twig', array(
+        return $this->render('envdetails/delete.html.twig', array(
             'form' => $form->createView(),
         ));
     }    

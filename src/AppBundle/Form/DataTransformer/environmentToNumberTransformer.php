@@ -1,5 +1,6 @@
 <?php
 namespace AppBundle\Form\DataTransformer;
+
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -14,7 +15,7 @@ class environmentToNumberTransformer implements DataTransformerInterface
         $this->manager = $manager;
     }
     /**
-     * Transforms an object (issue) to a string (number).
+     * Transforms an object (environment) to a string (number).
      *
      * @param  environment|null $environment
      * @return string
@@ -31,15 +32,15 @@ class environmentToNumberTransformer implements DataTransformerInterface
     
     
   /**
-     * Transforms a string (number) to an object (issue).
+     * Transforms a string (number) to an object (environment).
      *
      * @param  string $environmentNumber
      * @return environment|null
-     * @throws TransformationFailedException if object (issue) is not found.
+     * @throws TransformationFailedException if object (environment) is not found.
      */
     public function reverseTransform($environmentNumber)
     {
-        // no issue number? It's optional, so that's ok
+        // no environment number? It's optional, so that's ok
         if (!$environmentNumber) {
             return;
         }

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+use AppBundle\Entity\EnvDetails;
 /**
  * Environment
  *
@@ -47,12 +48,11 @@ class Environment
     {
         $this->envDetails = new ArrayCollection();
     }    
-/*
+    
     public function __toString()
     {
            return "{$this->getName()} {$this->getDescription()}";
     }
-*/    
     /**
      * Get id
      *

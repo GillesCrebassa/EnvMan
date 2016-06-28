@@ -4,7 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-
+use AppBundle\Entity\Server;
+use AppBundle\Entity\Environment;
 /**
  * EnvDetails
  *
@@ -59,6 +60,13 @@ class EnvDetails
     
     private $server;
     
+    
+    public function __construct()
+    {
+        $this->environment = new ArrayCollection();
+        $this->server = new ArrayCollection();
+    }    
+
     /**
      * Get id
      *
