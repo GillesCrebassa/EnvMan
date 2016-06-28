@@ -7,11 +7,21 @@
     <br>
     <br>
     <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <h1>Environments Details List for {{ environment.name }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 left">
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/add"> Add</a></button>
+        </div>
+    </div>    
+    <div class="row spacer">
+        <br>        
+    </div>    
+    <div class="row">
         <div class="col-lg-8 centered">
             <table class="table table-bordered">
-              <caption>
-                <strong>Environments Details List for {{ environment.name }}</strong></em>
-              </caption>
              <thead>
                 <tr>
                   <th>Type</th>
@@ -29,8 +39,9 @@
                          <td>{{ envdetails_row.server.name }}</td>
                          <td>{{ envdetails_row.user }}</td>
                          <td>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-list  glyphicon-align-left"></span><a href="/envdetails/view/{{ environment.id }}">View</a></button>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-search glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}">Details</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign  glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/view"> View</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/edit/{{ envdetails_row.id }}"> Edit</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/delete/{{ envdetails_row.id }}"> Delete</a></button>
                          </td>
                          
                      </tr>
