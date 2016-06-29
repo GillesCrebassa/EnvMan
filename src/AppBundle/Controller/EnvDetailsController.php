@@ -102,7 +102,7 @@ class EnvDetailsController extends Controller {
             if ($form->isValid()) {
                 // the validation passed, do something with the $author object
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($envdetails);
+                $em->remove($envdetails);
                 $em->flush();
 
                 $this->addFlash(

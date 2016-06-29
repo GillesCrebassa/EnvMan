@@ -166,6 +166,55 @@ class EnvironmentController extends Controller
         
         
     }
+
+    
+    /**
+     * @Route("/environment/delete/{envid}", name="environment_delete")
+     */
+    public function environmentDeleteAction($envid,Request $request)
+    {
+        $environment = new Environment();
+        $environment = $this->getDoctrine()
+            ->getRepository('AppBundle:Environment')
+            ->find($envid);
+        $form= $this->createForm(new EnvironmentType(), $environment);
+
+        
+        if (!$environment)
+            throw $this->createNotFoundException(
+                'No environment linked to this id '.$envid
+            );
+
+        if ($request->getMethod() == 'POST') {        
+            $form->handleRequest($request);
+            
+            if ($form->get('save')->isClicked()) {
+                if ($form->isValid()) {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->remove($environment);
+                    $em->flush();
+
+                    $this->addFlash(
+                            'success',
+                            'Your new environment were Updated!'
+                    );            
+                    return $this->redirectToRoute('environment_summary');
+                }
+                else {
+                    $this->addFlash(
+                            'warning',
+                            'some fields are not correct!'
+                    );                        
+                }
+            }
+        }
+        
+        return $this->render('environment/edit.html.twig', array(
+            'form' => $form->createView(),
+        ));
+        
+        
+    }
     
 }
 
