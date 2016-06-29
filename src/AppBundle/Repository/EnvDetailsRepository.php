@@ -10,7 +10,7 @@ namespace AppBundle\Repository;
  */
 class EnvDetailsRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllOrderedByName()
+    public function findAllOrderedByServerType()
     {
         return $this->getEntityManager()
             ->createQuery(
@@ -19,12 +19,13 @@ class EnvDetailsRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }    
     
-    public function findAllByIdJoinedToEnvironment($Id)
+    public function findAllByEnvId($Id)
     {
         $query = $this->getEntityManager()
             ->createQuery(
-                'SELECT ed, e FROM AppBundle:EnvDetails ed
+                'SELECT ed, e, s FROM AppBundle:EnvDetails ed
                 JOIN ed.environment e
+                JOIN ed.server s
                 WHERE e.id = :id'
             )->setParameter('id', $Id);
         try {
@@ -33,6 +34,24 @@ class EnvDetailsRepository extends \Doctrine\ORM\EntityRepository
             return null;
         }
     }
+    /*
+    public function findById($envid)    
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT ed, e, s FROM AppBundle:EnvDetails ed
+                JOIN ed.environment e
+                JOIN ed.server s
+                WHERE ed.id = :id'
+            )->setParameter('id', $Id);
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }        
+    }
+     * 
+     */
     
 
     

@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
 {% block body %}
-<div class="container">
+ <div class="container">
 {{ form_start(form) }}
 {{ form_errors(form) }}
     {{ form_row(form.servertype, { 'attr':{'disabled':'disabled'} }) }}
@@ -9,9 +9,9 @@
     {{ form_row(form.environment, { 'attr':{'disabled':'disabled'} }) }}
     {{ form_row(form.server, { 'attr':{'disabled':'disabled'} }) }}
     {{ form_row(form.user, { 'attr':{'disabled':'disabled'} }) }}
-    {{ form_row(form.save, { 'label': 'Return' }) }}
+    {{ form_row(form.save, { 'label': 'Delete' }) }}
 
 {{ form_end(form) }}
-
-    </div>
+    
+</div>
 {%  endblock body %}
