@@ -106,7 +106,7 @@ class EnvDetailsController extends Controller {
                 $em->flush();
 
                 $this->addFlash(
-                        'success', 'Your new details of an environment were removed!'
+                        'success', 'Your details of an environment were removed!'
                 );
                 return $this->redirectToRoute('envdetails_summary', array('envId' => $envId));
             } else {
@@ -140,7 +140,7 @@ class EnvDetailsController extends Controller {
                 $em->flush();
 
                 $this->addFlash(
-                        'success', 'Your new details of an environment were saved!'
+                        'success', 'Your details of an environment were saved!'
                 );
                 return $this->redirectToRoute('envdetails_summary', array('envId' => $envId));
             } else {

@@ -3,8 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+use AppBundle\Entity\ProductParameter;
 /**
  * Product
  *
@@ -41,7 +44,16 @@ class Product
      */
     private $description;
   
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProductParameter", mappedBy="product")
+     */    
+    private $productParameter;
     
+    public function __construct()
+    {
+        $this->productParameter = new ArrayCollection();
+    }    
     
     public function __toString()
     {
@@ -104,6 +116,39 @@ class Product
     public function getDescription()
     {
         return $this->description;
+    }
+    /**
+     * Add ProductParameter
+     *
+     * @param \AppBundle\Entity\ProductParameter $ProductParameter
+     *
+     * @return ProductParameter
+     */
+    public function addProductParameter(\AppBundle\Entity\ProductParameter $ProductParameter)
+    {
+        $this->ProductParameter[] = $ProductParameter;
+
+        return $this;
+    }
+
+    /**
+     * Remove ProductParameter
+     *
+     * @param \AppBundle\Entity\ProductParameter $ProductParameter
+     */
+    public function removeProductParameter(\AppBundle\Entity\ProductParameter $ProductParameter)
+    {
+        $this->ProductParameter->removeElement($ProductParameter);
+    }
+
+    /**
+     * Get ProductParameter
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductParameter()
+    {
+        return $this->ProductParameter;
     }
 
 }

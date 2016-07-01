@@ -4,15 +4,10 @@
  <div class="container">
 {{ form_start(form) }}
 {{ form_errors(form) }}
-    {{ form_row(form.servertype) }}
+    {{ form_row(form.name) }}
     {{ form_row(form.description, {'required': false}) }}
-    {{ form_row(form.environment) }}
-    {{ form_row(form.server) }}
-    {{ form_row(form.user) }}
+    {{ form_row(form.product) }}         
     {{ form_row(form.save) }}
-
-{#    <button type="submit">create !</button> #}
 {{ form_end(form) }}
-    
 </div>
 {%  endblock body %}

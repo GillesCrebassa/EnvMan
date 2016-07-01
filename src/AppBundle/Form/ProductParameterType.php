@@ -8,34 +8,30 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-use AppBundle\Entity\EnvDetails;
+use AppBundle\Entity\ProductParameter;
 
-class EnvDetailsType extends AbstractType
+class ProductParameterType extends AbstractType
 {   
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('servertype','text')
+            ->add('name','text')
             ->add('description','text')
-            ->add('user','textarea')
-                // TODO remove environment, already know in the controller
-            ->add('environment','text')
-            ->add('server','text')
+            ->add('product')
              ->add('save', 'submit')
             ;
     }
     
     public function getName()
     {
-            return 'EnvDetails';
+            return 'ProductParameter';
     }    
     
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-//            'data_class' => null,
-            'data_class' => 'AppBundle\Entity\EnvDetails',
+            'data_class' => 'AppBundle\Entity\ProductParameter',
         ));
     }    
     

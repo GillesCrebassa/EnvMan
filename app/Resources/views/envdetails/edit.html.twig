@@ -5,7 +5,7 @@
 {{ form_start(form) }}
 {{ form_errors(form) }}
     {{ form_row(form.servertype) }}
-    {{ form_row(form.description), {'required': false} }}
+    {{ form_row(form.description, {'required': false}) }}
     {{ form_row(form.environment) }}
     {{ form_row(form.server) }}
     {{ form_row(form.user) }}

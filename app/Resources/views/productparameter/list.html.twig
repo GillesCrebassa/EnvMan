@@ -1,0 +1,50 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Product Parameters Details Summary{% endblock %}
+
+{% block body %}
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <h1>Parameters List for {{ product.name }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 left">
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/parameter/{{ product.id }}/add"> Add</a></button>
+        </div>
+    </div>    
+    <div class="row spacer">
+        <br>        
+    </div>    
+    <div class="row">
+        <div class="col-lg-8 centered">
+            <table class="table table-bordered">
+             <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>action</th>
+                </tr>
+              </thead>
+              <tbody>             
+        {% for productparameter_row in productparameter if productparameter_row %}
+                     <tr>
+                         <td>{{ productparameter_row.name }}</td>
+                         <td>{{ productparameter_row.description }}</td>
+                         <td>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign  glyphicon-align-left"></span><a href="/parameter/{{ product.id }}/view/{{ productparameter_row.id }}"> View</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/parameter/{{ product.id }}/edit/{{ productparameter_row.id }}"> Edit</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/parameter/{{ product.id }}/delete/{{ productparameter_row.id }}"> Delete</a></button>
+                         </td>
+                         
+                     </tr>
+        {% endfor %}      
+              </tbody>
+       </table>
+    </div><!-- end col-lg-8 -->
+  </div><!-- end row -->
+</div><!-- end container -->
+{%  endblock body %}

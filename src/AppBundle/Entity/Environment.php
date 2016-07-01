@@ -134,7 +134,7 @@ class Environment
      */
     public function removeEnvDetails(\AppBundle\Entity\EnvDetails $envDetails)
     {
-        $this->Environment->removeElement($envDetails);
+        $this->envDetails->removeElement($envDetails);
     }
 
     /**
@@ -146,8 +146,6 @@ class Environment
     {
         return $this->envDetails;
     }
-  
-   
 
     /**
      * Add envDetail
