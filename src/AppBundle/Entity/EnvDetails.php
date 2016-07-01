@@ -70,7 +70,12 @@ class EnvDetails
     {
         $this->environment = new ArrayCollection();
         $this->server = new ArrayCollection();
-    }    
+    }
+    
+    public function __toString()
+    {
+           return "{$this->getName()} {$this->environment->getname()}";
+    }
 
     /**
      * Get id
