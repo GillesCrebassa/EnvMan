@@ -40,7 +40,7 @@ class ProductController extends Controller
     public function productAddAction(Request $request)
     {
 
-        $products = new Product();
+        $product = new Product();
         $form= $this->createForm(new ProductType(), $product);
 
         if ($request->getMethod() == 'POST') {
@@ -49,7 +49,7 @@ class ProductController extends Controller
             if ($form->isValid()) {
                 // the validation passed, do something with the $author object
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($products);
+                $em->persist($product);
                 $em->flush();
 
                 $this->addFlash(
@@ -142,7 +142,7 @@ class ProductController extends Controller
 
             $this->addFlash(
                     'success',
-                    'Your product were saved!'
+                    'Your product were removed!'
             );  
             return $this->redirectToRoute('product_summary');
         }

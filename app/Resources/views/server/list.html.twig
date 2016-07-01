@@ -7,16 +7,29 @@
     <br>
     <br>
     <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <h1>Servers List</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 left">
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/server/add"> Add</a></button>
+        </div>
+    </div>    
+    <div class="row spacer">
+        <br>        
+    </div>    
+    <div class="row">
         <div class="col-lg-8 centered">
             <table class="table table-bordered">
-              <caption>
-                <strong>Servers List</strong></em>
-              </caption>
              <thead>
                 <tr>
                   <th>Name</th>
                   <th>OS</th>
+                  <th>I.P. address</th>
                   <th>Active</th>
+                  <th>Action</th>
+                  <th>Used on</th>                  
                 </tr>
               </thead>
               <tbody>             
@@ -24,12 +37,21 @@
                      <tr>
                          <td>{{ server.name }}</td>
                          <td>{{ server.os }}</td>
+                         <td>{{ server.ip }}</td>
                          <td>{% if server.active %} 
-                             <span class="glyphicon glyphicon-ok"></span>
+                             <span class="glyphicon glyphicon-ok-sign"></span>
                              {% else %} 
-                             <span class="glyphicon glyphicon-remove"></span>
+                             <span class="glyphicon glyphicon-off"></span>
                              {% endif %}
                          </td>
+                         <td>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign  glyphicon-align-left"></span><a href="/server/view/{{ server.id }}"> View</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/server/edit/{{ server.id }}"> Edit</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/server/delete/{{ server.id }}"> Delete</a></button>
+                         </td>
+                         <td>
+                             Empty
+                         </td>                         
                      </tr>
         {% endfor %}      
               </tbody>

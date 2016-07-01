@@ -24,7 +24,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=100, unique=true)
      * 
      */
     
@@ -34,11 +34,17 @@ class Product
      * @var string
      *
      * 
-     * @ORM\Column(name="description", type="text")
-     * @Assert\NotBlank()
+     * @ORM\Column(name="description", type="text", length=255, nullable=true)
      */
     private $description;
   
+    
+    
+    public function __toString()
+    {
+           return "{$this->getName()}";
+    }
+    
     /**
      * Get id
      *

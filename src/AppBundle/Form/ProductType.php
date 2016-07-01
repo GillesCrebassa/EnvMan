@@ -13,9 +13,9 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('description')
-             ->add('save', 'submit');                
+            ->add('name','text')
+            ->add('description','textarea')
+             ->add('save', 'submit')                
         ;
     }
     
@@ -23,7 +23,7 @@ class ProductType extends AbstractType
     {
         return 'product';
     }    
- public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Product',

@@ -1,13 +1,13 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}delete a product{% endblock %}
+{% block title %}Delete an environment{% endblock %}
 {% block body %}
  <div class="container">
 {{ form_start(form) }}
 {{ form_errors(form) }}
     {{ form_row(form.name, { 'attr':{'disabled':'disabled'} }) }}
     {{ form_row(form.description, { 'attr':{'disabled':'disabled'} }) }}
-    {{ form_row(form.save, { 'label': 'Delete' }) }}
+    {{ form_widget(form.save, { 'label': 'Delete' }) }}
 {{ form_end(form) }}
     
 </div>

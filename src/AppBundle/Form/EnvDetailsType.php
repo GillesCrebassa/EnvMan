@@ -3,10 +3,10 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver; 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\OptionsResolver\OptionsResolver; 
 
 use AppBundle\Entity\EnvDetails;
 
@@ -18,10 +18,11 @@ class EnvDetailsType extends AbstractType
         $builder
             ->add('servertype','text')
             ->add('description','text')
-            ->add('user','text')
-            ->add('environment')
-            ->add('server')
-             ->add('save', 'submit');
+            ->add('user','textarea')
+            ->add('environment','text')
+            ->add('server','text')
+             ->add('save', 'submit')
+            ;
     }
     
     public function getName()

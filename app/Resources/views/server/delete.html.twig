@@ -1,12 +1,14 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}delete a product{% endblock %}
+{% block title %}Delete a server{% endblock %}
 {% block body %}
  <div class="container">
 {{ form_start(form) }}
 {{ form_errors(form) }}
     {{ form_row(form.name, { 'attr':{'disabled':'disabled'} }) }}
-    {{ form_row(form.description, { 'attr':{'disabled':'disabled'} }) }}
+    {{ form_row(form.ip, { 'attr':{'disabled':'disabled'} }) }}
+    {{ form_row(form.os, { 'attr':{'disabled':'disabled'} }) }}
+    {{ form_row(form.active, { 'attr':{'disabled':'disabled'} }) }}
     {{ form_row(form.save, { 'label': 'Delete' }) }}
 {{ form_end(form) }}
     

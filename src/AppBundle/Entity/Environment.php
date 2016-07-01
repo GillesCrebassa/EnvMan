@@ -28,14 +28,14 @@ class Environment
     /**
      * @var string
      *
-     * @ORM\Column(name="Name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
@@ -51,7 +51,7 @@ class Environment
     
     public function __toString()
     {
-           return "{$this->getName()} {$this->getDescription()}";
+           return "{$this->getName()}";
     }
     /**
      * Get id
@@ -145,5 +145,28 @@ class Environment
     }
   
    
-}
 
+    /**
+     * Add envDetail
+     *
+     * @param \AppBundle\Entity\EnvDetails $envDetail
+     *
+     * @return Environment
+     */
+    public function addEnvDetail(\AppBundle\Entity\EnvDetails $envDetail)
+    {
+        $this->envDetails[] = $envDetail;
+
+        return $this;
+    }
+
+    /**
+     * Remove envDetail
+     *
+     * @param \AppBundle\Entity\EnvDetails $envDetail
+     */
+    public function removeEnvDetail(\AppBundle\Entity\EnvDetails $envDetail)
+    {
+        $this->envDetails->removeElement($envDetail);
+    }
+}

@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}Add a new server{% endblock %}
+{% block title %}Delete a server{% endblock %}
 {% block body %}
  <div class="container">
 {{ form_start(form) }}
@@ -9,7 +9,7 @@
     {{ form_row(form.ip) }}
     {{ form_row(form.os) }}
     {{ form_row(form.active) }}
-    {{ form_row(form.save, { 'label': 'Create' }) }}
+    {{ form_row(form.save, { 'label': 'Update' }) }}
 {{ form_end(form) }}
     
 </div>
