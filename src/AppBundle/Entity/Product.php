@@ -4,11 +4,13 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Product
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductRepository")
+ * @UniqueEntity("name") 
  */
 class Product
 {
@@ -25,6 +27,7 @@ class Product
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100, unique=true)
+     * @Assert\NotBlank()
      * 
      */
     

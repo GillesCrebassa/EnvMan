@@ -19,8 +19,12 @@ class EnvironmentType extends AbstractType
         ;
     }
     
+    public function getName()
+    {
+        return 'environment';
+    }    
     
- public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Environment',

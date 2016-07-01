@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use AppBundle\Entity\Server;
 use AppBundle\Entity\Environment;
 /**
@@ -11,6 +13,7 @@ use AppBundle\Entity\Environment;
  *
  * @ORM\Table(name="env_details")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EnvDetailsRepository")
+ * @UniqueEntity("servertype") 
  */
 class EnvDetails
 {
@@ -27,6 +30,7 @@ class EnvDetails
      * @var string
      *
      * @ORM\Column(name="servertype", type="string", length=20)
+     * @Assert\NotBlank() 
      */
     private $servertype;
 
@@ -34,13 +38,14 @@ class EnvDetails
      * @var string
      *
      * @ORM\Column(name="user", type="string", length=50)
+     * @Assert\NotBlank() 
      */
     private $user;
     
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="description", type="string", length=255, nullable = true)
      */
     private $description;
 
