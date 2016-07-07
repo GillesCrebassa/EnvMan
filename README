@@ -44,3 +44,9 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f <folder>/id_rsa
 
 
 ssh-copy-id -i <folder>/id_rsa.pub user@remote-host
+
+
+
+
+Add extension for SSH:
+yum install php-pecl-ssh2
