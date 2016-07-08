@@ -43,7 +43,7 @@ class ResultAuditController extends Controller {
         
         
         
-/*        
+/*       
         if (!file_exists($ssh_dir) && !is_dir($ssh_dir)) {
             mkdir($ssh_dir);
             chmod($ssh_dir, 0700);
@@ -53,6 +53,8 @@ class ResultAuditController extends Controller {
             if (!$process->isSuccessful()) {
                 throw new ProcessFailedException($process);
             }
+ * 
+ */
 /*            
             $command = 'ssh-add '.$ssh_dir.'/id_rsa';
             $process = new Process($command);
@@ -80,10 +82,22 @@ class ResultAuditController extends Controller {
         //getOutput
         //getErrorOutput
  */       
-        
-        $configuration = new Ssh\SshConfigFileConfiguration('/Users/username/.ssh/config', 'my-host');
-        
-        return new Response('<html><body>Hello '.$process->getErrorOutput().' : root_dir:'.$ssh_dir.': command:'.$command.' !</body></html>');
+        $ssh_remote_home_dir = '/home/pff/em/';
+        $scripts_local_dir = $root_dir.'/../scripts';
+        $ssh_local_script_path = $scripts_local_dir.'/em_os.sh';
+        $ssh_remote_script_path = $ssh_remote_home_dir.'/em_os.sh';
+        $configuration = new Ssh\Configuration('ip');
+        $authentication = new Ssh\Authentication\Password('user', 'pass');
+        $session = new Session($configuration, $authentication);
+        $sftp = $session->getSftp();
+        $sftp->mkdir($ssh_remote_home_dir);
+        $sftp->send($ssh_local_script_path, $ssh_remote_script_path);
+        $sftp->chmod($ssh_remote_script_path, 0700);
+        $exec = $session->getExec();
+        $result =  $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS,1);
+
+//        return new Response('<html><body>Hello '.$process->getErrorOutput().' : root_dir:'.$ssh_dir.': command:'.$command.' result : '.$result.' !</body></html>');
+        return new Response('<html><body>Hello result : '.$result.' !</body></html>');
         
         
         
