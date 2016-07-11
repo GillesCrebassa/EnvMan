@@ -23,9 +23,10 @@ class EnvDetailsRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery(
-                'SELECT ed, e, s FROM AppBundle:EnvDetails ed
+                'SELECT ed, e, s,st FROM AppBundle:EnvDetails ed
                 JOIN ed.environment e
                 JOIN ed.server s
+                JOIN ed.servertype st
                 WHERE e.id = :id'
             )->setParameter('id', $Id);
         try {

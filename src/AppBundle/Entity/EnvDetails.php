@@ -27,10 +27,8 @@ class EnvDetails
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="servertype", type="string", length=20)
-     * @Assert\NotBlank() 
+     * @ORM\ManyToOne(targetEntity="ServerType", inversedBy="envDetails")
+     * @ORM\JoinColumn(name="servertype_id", referencedColumnName="id")
      */
     private $servertype;
 
@@ -70,6 +68,7 @@ class EnvDetails
     {
         $this->environment = new ArrayCollection();
         $this->server = new ArrayCollection();
+        $this->servertype = new ArrayCollection();
     }
     
     public function __toString()
@@ -85,20 +84,6 @@ class EnvDetails
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set servertype
-     *
-     * @param string $servertype
-     *
-     * @return EnvDetails
-     */
-    public function setServertype($servertype)
-    {
-        $this->servertype = $servertype;
-
-        return $this;
     }
 
     /**
@@ -125,16 +110,6 @@ class EnvDetails
         return $this;
     }
 
-    /**
-     * Get servertype
-     *
-     * @return string
-     */
-    public function getServertype()
-    {
-        return $this->servertype;
-    }
-    
     /**
      * Set description
      *
@@ -207,6 +182,33 @@ class EnvDetails
         return $this->server;
     }
     
+    /**
+     *
+     * @return envDetails
+     */
+    /**
+     * Set servertype
+     *
+     * @param \AppBundle\Entity\ServerType $servertype
+     *
+     * @return EnvDetails
+     */
+    public function setServertype($servertype)
+    {
+        $this->servertype = $servertype;
+
+        return $this;
+    }
+
+    /**
+     * Get servertype
+     *
+     * @return \AppBundle\Entity\ServerType
+     */
+    public function getServertype()
+    {
+        return $this->servertype;
+    }
     
     
 }

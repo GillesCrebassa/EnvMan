@@ -56,7 +56,7 @@ class Server
     private $active;
 
     /**
-     * @ORM\OneToMany(targetEntity="EnvDetails", mappedBy="environment")
+     * @ORM\OneToMany(targetEntity="EnvDetails", mappedBy="server")
      */    
     private $envDetails;
     
@@ -209,29 +209,4 @@ class Server
         return $this->envDetails;
     }
   
-    
-
-    /**
-     * Add envDetail
-     *
-     * @param \AppBundle\Entity\EnvDetails $envDetail
-     *
-     * @return Server
-     */
-    public function addEnvDetail(\AppBundle\Entity\EnvDetails $envDetail)
-    {
-        $this->envDetails[] = $envDetail;
-
-        return $this;
-    }
-
-    /**
-     * Remove envDetail
-     *
-     * @param \AppBundle\Entity\EnvDetails $envDetail
-     */
-    public function removeEnvDetail(\AppBundle\Entity\EnvDetails $envDetail)
-    {
-        $this->envDetails->removeElement($envDetail);
-    }
 }

@@ -16,12 +16,21 @@ class EnvDetailsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+/*
             ->add('servertype','text')
             ->add('description','text')
             ->add('user','textarea')
                 // TODO remove environment, already know in the controller
             ->add('environment','text')
             ->add('server','text')
+ * 
+ */
+            ->add('servertype')
+            ->add('description','text')
+            ->add('user','textarea')
+                // TODO remove environment, already know in the controller
+            ->add('environment')
+            ->add('server')
              ->add('save', 'submit')
             ;
     }
