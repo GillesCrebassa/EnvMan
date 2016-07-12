@@ -9,13 +9,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
- * ServerType
+ * ServerCategory
  *
- * @ORM\Table(name="server_type")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ServerTypeRepository")
+ * @ORM\Table(name="server_category")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ServerCategoryRepository")
  * @UniqueEntity("name")
  */
-class ServerType
+class ServerCategory
 {
     /**
      * @var int
@@ -34,7 +34,7 @@ class ServerType
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="EnvDetails", mappedBy="servertype")
+     * @ORM\OneToMany(targetEntity="EnvDetails", mappedBy="servercategory")
      */    
     private $envDetails;
     
@@ -62,7 +62,7 @@ class ServerType
      *
      * @param string $name
      *
-     * @return ServerType
+     * @return ServerCategory
      */
     public function setName($name)
     {
@@ -80,5 +80,16 @@ class ServerType
     {
         return $this->name;
     }
+
+    /**
+     * Get envDetails
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEnvDetails()
+    {
+        return $this->envDetails;
+    }
+    
 }
 

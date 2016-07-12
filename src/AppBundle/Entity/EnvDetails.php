@@ -7,13 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use AppBundle\Entity\Server;
+use AppBundle\Entity\ServerCategory;
 use AppBundle\Entity\Environment;
 /**
  * EnvDetails
  *
  * @ORM\Table(name="env_details")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EnvDetailsRepository")
- * @UniqueEntity("servertype") 
+ ** @UniqueEntity("servercategory") 
  */
 class EnvDetails
 {
@@ -27,10 +28,11 @@ class EnvDetails
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ServerType", inversedBy="envDetails")
-     * @ORM\JoinColumn(name="servertype_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="ServerCategory", inversedBy="envDetails")
+     * @ORM\JoinColumn(name="servercategory_id", referencedColumnName="id")
+     * @Assert\NotBlank() 
      */
-    private $servertype;
+    private $servercategory;
 
     /**
      * @var string
@@ -51,6 +53,7 @@ class EnvDetails
      * 
      * @ORM\ManyToOne(targetEntity="Environment", inversedBy="envDetails")
      * @ORM\JoinColumn(name="environment_id", referencedColumnName="id")
+     * @Assert\NotBlank() 
      */
     
     private $environment;
@@ -59,6 +62,7 @@ class EnvDetails
      * 
      * @ORM\ManyToOne(targetEntity="Server", inversedBy="envDetails")
      * @ORM\JoinColumn(name="server_id", referencedColumnName="id")
+     * @Assert\NotBlank() 
      */
     
     private $server;
@@ -68,12 +72,12 @@ class EnvDetails
     {
         $this->environment = new ArrayCollection();
         $this->server = new ArrayCollection();
-        $this->servertype = new ArrayCollection();
+        $this->servercategory = new ArrayCollection();
     }
     
     public function __toString()
     {
-           return "{$this->getName()} {$this->environment->getname()}";
+           return "{$this->getName()} {$this->environment->getname()} {$this->servercategory->getname()}";
     }
 
     /**
@@ -187,27 +191,27 @@ class EnvDetails
      * @return envDetails
      */
     /**
-     * Set servertype
+     * Set servercategory
      *
-     * @param \AppBundle\Entity\ServerType $servertype
+     * @param \AppBundle\Entity\ServerCategory $servercategory
      *
      * @return EnvDetails
      */
-    public function setServertype($servertype)
+    public function setServerCategory($servercategory)
     {
-        $this->servertype = $servertype;
+        $this->servercategory = $servercategory;
 
         return $this;
     }
 
     /**
-     * Get servertype
+     * Get servercategory
      *
-     * @return \AppBundle\Entity\ServerType
+     * @return \AppBundle\Entity\ServerCategory
      */
-    public function getServertype()
+    public function getServercategory()
     {
-        return $this->servertype;
+        return $this->servercategory;
     }
     
     

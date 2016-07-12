@@ -1,0 +1,55 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Servers Category Summary{% endblock %}
+
+{% block body %}
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <h1>Servers List</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 left">
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/servercategory/add"> Add</a></button>
+        </div>
+    </div>    
+    <div class="row spacer">
+        <br>        
+    </div>    
+    <div class="row">
+        <div class="col-lg-8 centered">
+            <table class="table table-bordered">
+             <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Action</th>                  
+                  <th>Used on</th>                  
+                </tr>
+              </thead>
+              <tbody>             
+        {% for servercategory_row in servercategory %}
+                     <tr>
+                         <td>{{ servercategory_row.name }}</td>
+                         <td>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign  glyphicon-align-left"></span><a href="/servercategory/view/{{ servercategory_row.id }}"> View</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/servercategory/edit/{{ servercategory_row.id }}"> Edit</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/servercategory/delete/{{ servercategory_row.id }}"> Delete</a></button>
+                         </td>
+                         <td>
+                             <ul>
+                             {% for envdetails in servercategory_row.getEnvDetails() if envdetails %}
+                                     <li>{{ envdetails.environment.name }} - {{ envdetails.server.name }}</li>
+                             {% endfor %}                                 
+                             </ul>
+                         </td>                         
+                     </tr>
+        {% endfor %}      
+              </tbody>
+       </table>
+    </div><!-- end col-lg-8 -->
+  </div><!-- end row -->
+</div><!-- end container -->
+{%  endblock body %}

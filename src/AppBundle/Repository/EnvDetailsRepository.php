@@ -10,11 +10,15 @@ namespace AppBundle\Repository;
  */
 class EnvDetailsRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findAllOrderedByServerType()
+    public function findAllOrderedByServerCategory()
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT e FROM AppBundle:EnvDetails e ORDER BY e.servertype ASC'
+                'SELECT ed, sc, e, s FROM AppBundle:EnvDetails ed 
+                JOIN ed.servercategory sc
+                JOIN ed.environment e
+                JOIN ed.server s
+                ORDER BY ee.servercategory ASC'
             )
             ->getResult();
     }    
@@ -23,10 +27,10 @@ class EnvDetailsRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->getEntityManager()
             ->createQuery(
-                'SELECT ed, e, s,st FROM AppBundle:EnvDetails ed
+                'SELECT ed, e, s,sc FROM AppBundle:EnvDetails ed
                 JOIN ed.environment e
                 JOIN ed.server s
-                JOIN ed.servertype st
+                JOIN ed.servercategory sc
                 WHERE e.id = :id'
             )->setParameter('id', $Id);
         try {

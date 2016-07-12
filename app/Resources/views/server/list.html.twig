@@ -20,7 +20,7 @@
         <br>        
     </div>    
     <div class="row">
-        <div class="col-lg-8 centered">
+        <div class="col-lg-12 centered">
             <table class="table table-bordered">
              <thead>
                 <tr>
@@ -50,7 +50,11 @@
                              <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/server/delete/{{ server.id }}"> Delete</a></button>
                          </td>
                          <td>
-                             Empty
+                             <ul>
+                             {% for envdetails in server.getEnvDetails() if envdetails %}
+                                     <li>{{ envdetails.environment.name }} - {{ envdetails.servercategory.name }}</li>
+                             {% endfor %}
+                             </ul>
                          </td>                         
                      </tr>
         {% endfor %}      
