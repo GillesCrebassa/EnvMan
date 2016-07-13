@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use AppBundle\Entity\ProductParameter;
+use AppBundle\Entity\ServerCategory;
 /**
  * Product
  *
@@ -50,9 +51,17 @@ class Product
      */    
     private $productParameter;
     
+    /**
+     * @ORM\ManyToMany(targetEntity="ServerCategory", mappedBy="product")
+     **/    
+    
+    private $serverCategory;
+    
+    
     public function __construct()
     {
         $this->productParameter = new ArrayCollection();
+        $this->serverCategory = new ArrayCollection();
     }    
     
     public function __toString()
@@ -149,6 +158,12 @@ class Product
     public function getProductParameter()
     {
         return $this->ProductParameter;
+    }
+    
+    
+    public function addServerCategory(\AppBundle\Entity\ServerCategory $servercategory)
+    {
+        $this->serverCategory[] = $servercategory; 
     }
 
 }

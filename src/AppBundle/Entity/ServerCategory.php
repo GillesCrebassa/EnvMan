@@ -37,16 +37,26 @@ class ServerCategory
      * @ORM\OneToMany(targetEntity="EnvDetails", mappedBy="servercategory")
      */    
     private $envDetails;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Product", inversedBy="servercategory")
+     * @ORM\JoinTable(name="product_servercategory")
+     **/    
+    
+    private $product;
     
     public function __construct()
     {
         $this->envDetails = new ArrayCollection();
+        $this->product = new ArrayCollection();
     }    
     public function __toString()
     {
            return "{$this->getName()}";
     }
-
+    
+    
+    
     /**
      * Get id
      *
@@ -90,6 +100,13 @@ class ServerCategory
     {
         return $this->envDetails;
     }
+    
+    
+    public function addProduct(Product $product)
+    {
+        $product->addServerCategory($this); // synchronously updating inverse side
+        $this->product[] = $product;
+    }    
     
 }
 

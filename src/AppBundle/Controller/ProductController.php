@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Product;
+use AppBundle\Entity\ServerCategory;
 use AppBundle\Form\ProductType;
 
 class ProductController extends Controller
