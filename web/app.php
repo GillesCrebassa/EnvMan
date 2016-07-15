@@ -17,9 +17,7 @@ $apcLoader = new Symfony\Component\ClassLoader\ApcClassLoader(sha1(__FILE__), $l
 $loader->unregister();
 $apcLoader->register(true);
 */
-
 //require_once __DIR__.'/../app/AppCache.php';
-
 $kernel = new AppKernel('prod', false);
 $kernel->loadClassCache();
 //$kernel = new AppCache($kernel);

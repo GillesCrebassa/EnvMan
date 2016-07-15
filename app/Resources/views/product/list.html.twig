@@ -26,6 +26,7 @@
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
+                  <th>Used on server Category</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -39,6 +40,13 @@
                              <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/product/edit/{{ product.id }}"> Edit</a></button>
                              <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/product/delete/{{ product.id }}"> Delete</a></button>
                              <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-search glyphicon-align-left"></span><a href="/parameter/{{ product.id }}"> Parameters</a></button>
+                         </td>
+                         <td>
+                             <ul>
+                             {% for servercategory_row in product.getServerCategory() if servercategory_row %}
+                                   <li>{{ servercategory_row.name }}</li>
+                             {% endfor %}                                 
+                            </ul>
                          </td>
                      </tr>
         {% endfor %}      

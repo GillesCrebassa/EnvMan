@@ -26,7 +26,8 @@
                 <tr>
                   <th>Name</th>
                   <th>Action</th>                  
-                  <th>Used on</th>                  
+                  <th>Used on Env - Server</th>
+                  <th>Products Used</th>
                 </tr>
               </thead>
               <tbody>             
@@ -45,6 +46,14 @@
                              {% endfor %}                                 
                              </ul>
                          </td>                         
+                         <td>
+                             {{ servercategory_row.getProduct()|length }}
+{#
+                             {% for product_row in servercategory_row.getProduct() if product_row %}
+                                    {{ product_row.name }}
+                             {% endfor %}                                 
+#}
+                         </td>
                      </tr>
         {% endfor %}      
               </tbody>

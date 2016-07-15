@@ -39,7 +39,7 @@ class ServerCategory
     private $envDetails;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", inversedBy="servercategory")
+     * @ORM\ManyToMany(targetEntity="Product", inversedBy="serverCategory")
      * @ORM\JoinTable(name="product_servercategory")
      **/    
     
@@ -100,12 +100,56 @@ class ServerCategory
     {
         return $this->envDetails;
     }
+
     
-    
+    /**
+     * Get product
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProduct()
+    {
+        $products = [];
+        foreach ($this->product as $product) {
+//            $products[] = $product->getName();
+            $products[] = $product;
+        }
+    return $products;
+    }
+
+  /**
+   * Set product.
+   *
+   * @param ArrayCollection $products
+   * @return ServerCategory
+   */
+    public function setProduct($products) {
+        $this->product = $products;
+        return $this;
+    }
+
+  /**
+   * Add product.
+   *
+   * @param ArrayCollection $product
+   * @return ServerCategory
+   */    
     public function addProduct(Product $product)
     {
         $product->addServerCategory($this); // synchronously updating inverse side
         $this->product[] = $product;
+        return $this;
+    }    
+    
+ /**
+   * Remove product
+   *
+   * @param Product $product
+   * @return ServerCategory
+   */
+    public function removeProduct(Product $product) {
+        $this->product->removeElement($product);
+        return $this;
     }    
     
 }

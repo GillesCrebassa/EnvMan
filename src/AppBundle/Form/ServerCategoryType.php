@@ -15,6 +15,24 @@ class ServerCategoryType extends AbstractType
     {
         $builder
             ->add('name','text')
+                ->add('product','entity',
+       [
+          'class' => 'AppBundle\Entity\Product',
+          'property' => 'name',
+          'multiple' => TRUE,
+          'expanded' => TRUE,
+          'label' => 'Products',
+        ]                        
+                        )
+/*
+            ->add('product', 'collection', array(
+            'type'   => 'product',
+            'options'  => array(
+                    'required'  => false,
+                    'attr'      => array('class' => 'product-box')
+                    ),
+            ))
+ */
              ->add('save', 'submit')
         ;
     }

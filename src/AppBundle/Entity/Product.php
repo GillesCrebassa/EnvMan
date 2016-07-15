@@ -160,10 +160,56 @@ class Product
         return $this->ProductParameter;
     }
     
+
     
-    public function addServerCategory(\AppBundle\Entity\ServerCategory $servercategory)
+    
+    /**
+     * Get serverCategory
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getServerCategory()
     {
-        $this->serverCategory[] = $servercategory; 
+        $serverCategories = [];
+        foreach ($this->serverCategory as $serverCategory) {
+//            $products[] = $product->getName();
+            $serverCategories[] = $serverCategory;
+        }
+    return $serverCategories;
     }
 
+  /**
+   * Set serverCategory.
+   *
+   * @param ArrayCollection $serverCategory
+   * @return Product
+   */
+    public function setServerCategory($serverCategory) {
+        $this->serverCategory = $serverCategory;
+        return $this;
+    }
+
+  /**
+   * Add serverCategory.
+   *
+   * @param ArrayCollection $serverCategory
+   * @return Product
+   */    
+    public function addServerCategory(ServerCategory $serverCategory)
+    {
+        $serverCategory->addProduct($this); // synchronously updating inverse side
+        $this->serverCategory[] = $serverCategory;
+        return $this;
+    }    
+    
+ /**
+   * Remove serverCategory
+   *
+   * @param ServerCategory $serverCategory
+   * @return Product
+   */
+    public function removeServerCategory(ServerCategory $serverCategory) {
+        $this->serverCategory->removeElement($serverCategory);
+        return $this;
+    }    
 }

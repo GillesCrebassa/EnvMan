@@ -79,6 +79,7 @@ class ServerCategoryController extends Controller
         $servercategory = $this->getDoctrine()
             ->getRepository('AppBundle:ServerCategory')
             ->find($serverCategoryId);
+//        var_dump($servercategory->getProduct()->name);
         $form= $this->createForm(new ServerCategoryType(), $servercategory);
 
         if ($request->getMethod() == 'POST') {

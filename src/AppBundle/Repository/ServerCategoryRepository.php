@@ -14,7 +14,8 @@ class ServerCategoryRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT sc FROM AppBundle:ServerCategory sc ORDER BY sc.name ASC'
+                'SELECT sc FROM AppBundle:ServerCategory sc 
+                    ORDER BY sc.name ASC'
             )
             ->getResult();
     }            
