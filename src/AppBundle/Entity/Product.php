@@ -157,7 +157,11 @@ class Product
      */
     public function getProductParameter()
     {
-        return $this->ProductParameter;
+        $productParameters = [];
+        foreach ($this->productParameter as $productParameter) {
+            $productParameters[] = $productParameter;
+        }
+    return $productParameters;
     }
     
 
@@ -172,7 +176,6 @@ class Product
     {
         $serverCategories = [];
         foreach ($this->serverCategory as $serverCategory) {
-//            $products[] = $product->getName();
             $serverCategories[] = $serverCategory;
         }
     return $serverCategories;
