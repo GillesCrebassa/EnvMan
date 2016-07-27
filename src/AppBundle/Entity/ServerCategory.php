@@ -39,8 +39,11 @@ class ServerCategory
     private $envDetails;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", inversedBy="serverCategory")
-     * @ORM\JoinTable(name="product_servercategory")
+     * @ORM\ManyToMany(targetEntity="Product", inversedBy="serverCategory", indexBy="id", cascade={"persist"})
+     * @ORM\JoinTable(name="product_servercategory",
+     *  joinColumns={@ORM\JoinColumn(name="server_category_id",referencedColumnName="id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")}
+     * )
      **/    
     
     private $product;
@@ -109,12 +112,16 @@ class ServerCategory
      */
     public function getProduct()
     {
+/*
         $products = [];
         foreach ($this->product as $product) {
 //            $products[] = $product->getName();
             $products[] = $product;
         }
     return $products;
+ * 
+ */
+        return $this->product;
     }
 
   /**
@@ -124,7 +131,11 @@ class ServerCategory
    * @return ServerCategory
    */
     public function setProduct($products) {
+        $logger = $this->get('logger');
+        $logger->info('GCR:pass setProduct !!!');
+        
         $this->product = $products;
+        $logger->info('GCR:pass setProducts assigned!!!');
         return $this;
     }
 
@@ -136,6 +147,8 @@ class ServerCategory
    */    
     public function addProduct(Product $product)
     {
+        $logger = $this->get('logger');
+        $logger->info('GCR:pass addProduct !!!');
         $product->addServerCategory($this); // synchronously updating inverse side
         $this->product[] = $product;
         return $this;

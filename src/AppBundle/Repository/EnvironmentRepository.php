@@ -25,6 +25,6 @@ class EnvironmentRepository extends \Doctrine\ORM\EntityRepository
                 'SELECT e, ed FROM AppBundle:Environment e 
                     JOIN e.envDetails ed'
             )
-            ->getResult();
+            ->getSingleResult();
     }
 }

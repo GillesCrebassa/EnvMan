@@ -25,7 +25,7 @@ use AppBundle\Entity\Environment;
 
 
 
-class ResultAuditController extends Controller {
+class AuditController extends Controller {
 
     /**
      * TODO ADD PARAMETERS Server, environment, parameter
@@ -103,5 +103,71 @@ class ResultAuditController extends Controller {
         
     }
 
+    
+    /**
+     * @Route("/audit/{envId}", name="audit_summary")
+     */
+    public function auditListAction($envId) {
+        $dataSummary=[];
+        $envdetails = [];
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
+        $environment = $repository->findByEnvId($envId);
+        $envdetails = $environment->getEnvDetails();
+//        var_dump("environmentName:".$environment->getName());
+        foreach ($envdetails as $envdetails_row) 
+        {
+//            var_dump("envdetaileId:".$envdetails_row->getId());
+//            var_dump("serverName:".$envdetails_row->getServer()->getName());
+//            var_dump("serverUser:".$envdetails_row->getUser());
+//            var_dump("servernameCategory:".$envdetails_row->getServerCategory()->getName());
+            $serverCategory = $envdetails_row->getServerCategory();
+            $products = $serverCategory->getProduct();
+            foreach ($products as $products_row) 
+            {
+//                var_dump("Product:".$products_row->getName());
+                $productParameter = $products_row->getProductParameter();
+                foreach ($productParameter as $productParameter_row) 
+                {
+//                    var_dump("parameter:".$productParameter_row->getName());
+                    $environmentId = $environment->getId();
+                    $environmentName = $environment->getName();
+                    $envdetaileId = $envdetails_row->getId();
+                    $serverId = $envdetails_row->getServer()->getId();
+                    $serverName = $envdetails_row->getServer()->getName();
+                    $servernameCategory = $envdetails_row->getServerCategory()->getName();
+                    $serverUser = $envdetails_row->getUser();
+                    $productId= $products_row->getId();
+                    $productName= $products_row->getName();
+                    $parameterId = $productParameter_row->getId();
+                    $parameterName = $productParameter_row->getName();
+                    $dataSummary[] = array(
+                        'environmentId'=> $environmentId,
+                        'environmentName' =>$environmentName,
+                        'envdetaileId' => $envdetaileId,
+                        'serverId' => $serverId,
+                        'serverName' => $serverName,
+                        'servernameCategory' => $servernameCategory,        
+                        'serverUser' => $serverUser,
+                        'productId' => $productId,
+                        'productName'=> $productName,
+                        'parameterId'=> $parameterId,
+                        'parameterName' => $parameterName,        
+                    );
+//                    var_dump($dataSummary);
+                }
+            }
+            
+            
+            
+
+        }
+        return $this->render('audit/list.html.twig', array(
+                    'dataSummary' => $dataSummary,
+        ));
+        
+//        return new Response('<html><body>Hello result : OK !</body></html>');
+            
+    }    
+    
 }
 

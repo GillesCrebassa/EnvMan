@@ -75,21 +75,34 @@ class ServerCategoryController extends Controller
     
     public function serverCategoryEditAction($serverCategoryId,Request $request)
     {
+        $logger = $this->get('logger');
         $servercategory = new ServerCategory();
         $servercategory = $this->getDoctrine()
             ->getRepository('AppBundle:ServerCategory')
             ->find($serverCategoryId);
 //        var_dump($servercategory->getProduct()->name);
-        $form= $this->createForm(new ServerCategoryType(), $servercategory);
-
+        $logger->info('GCR:before createform');
+        $form= $this->createForm(ServerCategoryType::class, $servercategory);
+        $logger->info('GCR:after createform');
+        
         if ($request->getMethod() == 'POST') {
+        $logger->info('GCR:POST YES');
+        $logger->info('GCR:request:'.$request);
+
             $form->handleRequest($request);
+        $logger->info('GCR:handleRequest YES');
 
             if ($form->isValid()) {
+        $logger->info('GCR:isValid YES');
                 // the validation passed, do something with the $author object
                 $em = $this->getDoctrine()->getManager();
+        $logger->info('GCR:before getdata');
+                $servercategory = $form->getData();
+        $logger->info('GCR:after getdata');
                 $em->persist($servercategory);
+        $logger->info('GCR:after persist');
                 $em->flush();
+        $logger->info('GCR:after flush');
             
                 $this->addFlash(
                         'success',

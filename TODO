@@ -1,0 +1,46 @@
+TODO LIST
+=========
+
+1.
+Add Dashboard in Audit with tree view 
+Env
+--> ServerType
+---->Server name
+------->Product
+----------->Parameter
+
+
+Exemple:
+
+PRG
+-->Front Web Server
+--->PrgFrWebS01
+----->JBoss
+--------->Version
+--------->Install Path
+--------->Port Used
+--------->Started
+
+TST
+-->Front Web Server
+--->TstFrWebS02
+----->JBoss
+--------->Version
+--------->Install Path
+--------->Port Used
+--------->Started
+
+2.
+Add button to check 'in live'
+
+
+3.
+Automatic ssh-copy to contact server with the current user
+
+4.
+On Edit form of the envdetails, the field 'environment' should be already selected and invisible or disabled.
+
+
+5.
+On Edit form of the productparameter, the field 'product' should be already selected and invisible or disabled.
+

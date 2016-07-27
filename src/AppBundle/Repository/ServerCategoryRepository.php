@@ -10,6 +10,7 @@ namespace AppBundle\Repository;
  */
 class ServerCategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+    
    public function findAllOrderedByName()
     {
         return $this->getEntityManager()
@@ -18,5 +19,5 @@ class ServerCategoryRepository extends \Doctrine\ORM\EntityRepository
                     ORDER BY sc.name ASC'
             )
             ->getResult();
-    }            
+    } 
 }

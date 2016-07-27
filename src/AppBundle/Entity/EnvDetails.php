@@ -77,7 +77,7 @@ class EnvDetails
     
     public function __toString()
     {
-           return "{$this->getName()} {$this->environment->getname()} {$this->servercategory->getname()}";
+           return "{$this->getId()} {$this->environment->getname()} {$this->servercategory->getname()}";
     }
 
     /**

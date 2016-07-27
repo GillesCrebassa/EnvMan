@@ -1,0 +1,70 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Audit Summary{% endblock %}
+
+{% block body %}
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <h1>Audit List</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 left">
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/product/add"> Add</a></button>
+        </div>
+    </div>    
+    <div class="row spacer">
+        <br>        
+    </div>        
+    <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12 centered">
+            <table class="table table-bordered">
+             <thead>
+                <tr>
+                  <th>environmentName</th>
+                  <th>serverName</th>
+                  <th>servernameCategory</th>
+                  <th>serverUser</th>
+                  <th>productName</th>
+                  <th>parameterName</th>
+                </tr>
+              </thead>
+              <tbody>             
+
+        {% for dataSummary_row in dataSummary if dataSummary_row %}
+                     <tr>
+                         {#
+                    $dataSummary[] = array(
+                        'environmentId'=> $environmentId,
+                        'environmentName' =>$environmentName,
+                        'envdetaileId' => $envdetaileId,
+                        'serverId' => $serverId,
+                        'serverName' => $serverName,
+                        'servernameCategory' => $servernameCategory,        
+                        'serverUser' => $serverUser,
+                        'productId' => $productId,
+                        'productName'=> $productName,
+                        'parameterId'=> $parameterId,
+                        'parameterName' => $parameterName,        
+                    );
+                    #}
+                    
+
+
+                         <td>{{ dataSummary_row.environmentName }}</td>
+                         <td>{{ dataSummary_row.serverName }}</td>
+                         <td>{{ dataSummary_row.servernameCategory }}</td>
+                         <td>{{ dataSummary_row.serverUser }}</td>
+                         <td>{{ dataSummary_row.productName }}</td>
+                         <td>{{ dataSummary_row.parameterName }}</td>
+                     </tr>
+        {% endfor %}      
+              </tbody>
+       </table>
+    </div><!-- end col-lg-12 -->
+  </div><!-- end row -->
+</div><!-- end container -->
+{%  endblock body %}
