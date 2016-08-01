@@ -20,11 +20,15 @@ class EnvironmentRepository extends \Doctrine\ORM\EntityRepository
     }       
     public function findByEnvId($envid)
     {
-        return $this->getEntityManager()
+        $query= $this->getEntityManager()
             ->createQuery(
                 'SELECT e, ed FROM AppBundle:Environment e 
-                    JOIN e.envDetails ed'
-            )
-            ->getSingleResult();
-    }
+                    JOIN e.envDetails ed
+                    WHERE e.id = :envid'
+            )->setParameter('envid', $envid);
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }    }
 }

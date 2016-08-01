@@ -14,7 +14,6 @@ use AppBundle\Entity\Environment;
  *
  * @ORM\Table(name="env_details")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EnvDetailsRepository")
- ** @UniqueEntity("servercategory") 
  */
 class EnvDetails
 {
