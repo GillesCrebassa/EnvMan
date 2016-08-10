@@ -133,7 +133,7 @@ class AuditController extends Controller {
     //                    var_dump("parameter:".$productParameter_row->getName());
                         $environmentId = $environment->getId();
                         $environmentName = $environment->getName();
-                        $envdetaileId = $envdetails_row->getId();
+                        $envdetailsId = $envdetails_row->getId();
                         $serverId = $envdetails_row->getServer()->getId();
                         $serverName = $envdetails_row->getServer()->getName();
                         $servernameCategory = $envdetails_row->getServerCategory()->getName();
@@ -145,7 +145,7 @@ class AuditController extends Controller {
                         $dataSummary[] = array(
                             'environmentId'=> $environmentId,
                             'environmentName' =>$environmentName,
-                            'envdetaileId' => $envdetaileId,
+                            'envdetailsId' => $envdetailsId,
                             'serverId' => $serverId,
                             'serverName' => $serverName,
                             'servernameCategory' => $servernameCategory,        
@@ -153,7 +153,8 @@ class AuditController extends Controller {
                             'productId' => $productId,
                             'productName'=> $productName,
                             'parameterId'=> $parameterId,
-                            'parameterName' => $parameterName,        
+                            'parameterName' => $parameterName,
+                            'fileexist' => $this->auditCheckParamExist($environment->getId(),$envdetails_row->getId(),$productParameter_row->getId()),
                         );
     //                    var_dump($dataSummary);
                     }
@@ -167,6 +168,117 @@ class AuditController extends Controller {
 //        return new Response('<html><body>Hello result : OK !</body></html>');
             
     }    
+    
+    
+    
+    /**
+     * TODO ADD PARAMETERS Server, environment, parameter
+     * @Route("/audit/checkparam/{envId}/{envDetailsId}/{paramId}", name="audit_checkparam")
+     */
+    public function auditCheckParamListAction($envId,$envDetailsId,$paramId) {
+        
+        
+        $logger = $this->get('logger');
+        $logger->debug('GCR:before auditCheckParamListAction');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
+        $environment = $repository->find($envId);
+        $repository = $this->getDoctrine()->getRepository('AppBundle:EnvDetails');
+        $envdetails = $repository->find($envDetailsId);
+        $repository = $this->getDoctrine()->getRepository('AppBundle:ProductParameter');
+        $productParameter = $repository->find($paramId);
+        
+        $user_ssh = $envdetails->getUser();
+        // TODO change by a password
+        $pass_ssh = $envdetails->getUser();
+        $server_ssh = $envdetails->getServer()->getName();
+        $productParameterName = $productParameter->getName();
+        $productName = $productParameter->getProduct()->getName();
+        // TODO change by /hosttype/product_parameter
+        $logger->debug('GCR:user_ssh:'.$user_ssh);
+        $logger->debug('GCR:pass_ssh:'.$pass_ssh);
+        $logger->debug('GCR:server_ssh:'.$server_ssh);
+        $logger->debug('GCR:productParameterName:'.$productParameterName);
+        $logger->debug('GCR:productName:'.$productName);
+        $OSType = $envdetails->getServer()->getOs();
+        $script_name = $OSType.'/'.$productName.'_'.$productParameterName.'.sh';
+        $logger->debug('GCR:script_name:'.$script_name);
+        
+        $root_dir = $this->container->getParameter('kernel.root_dir');
+//        $ssh_dir = $root_dir.'/../ssh';
+        
+        
+        
+        $ssh_remote_home_dir = '/home/'.$user_ssh.'/em/';
+        $scripts_local_dir = $root_dir.'/../scripts';
+        $logger->debug('GCR:ssh_remote_home_dir:'.$ssh_remote_home_dir);
+        $logger->debug('GCR:scripts_local_dir:'.$scripts_local_dir);
+        
+        // change name based on the /hosttype/product_parameter
+        $ssh_local_script_path = $scripts_local_dir.'/'.$script_name;
+        $ssh_remote_script_path = $ssh_remote_home_dir.'/'.$script_name;
+        $configuration = new Ssh\Configuration($server_ssh);
+        $authentication = new Ssh\Authentication\Password($user_ssh, $pass_ssh);
+        $logger->debug('GCR:session started');
+        $session = new Session($configuration, $authentication);
+        $logger->debug('GCR:session done');
+        $sftp = $session->getSftp();
+        $sftp->mkdir($ssh_remote_home_dir);
+        $sftp->mkdir($ssh_remote_home_dir.'/'.$OSType);
+        // TODO in case of issue... folder not existing
+        $sftp->send($ssh_local_script_path, $ssh_remote_script_path);
+        $sftp->chmod($ssh_remote_script_path, 0700);
+        $exec = $session->getExec();
+        $result =  $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS,1);
+
+//        return new Response('<html><body>Hello '.$process->getErrorOutput().' : root_dir:'.$ssh_dir.': command:'.$command.' result : '.$result.' !</body></html>');
+        return new Response('<html><body>Hello result : '.$result.' !</body></html>');
+        
+        
+        
+    }
+    
+    public function auditCheckParamExist($envId,$envDetailsId,$paramId) {
+        
+        
+        $logger = $this->get('logger');
+        $logger->debug('GCR:before auditCheckParamListAction');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
+        $environment = $repository->find($envId);
+        $repository = $this->getDoctrine()->getRepository('AppBundle:EnvDetails');
+        $envdetails = $repository->find($envDetailsId);
+        $repository = $this->getDoctrine()->getRepository('AppBundle:ProductParameter');
+        $productParameter = $repository->find($paramId);
+        
+        $productParameterName = $productParameter->getName();
+        $productName = $productParameter->getProduct()->getName();
+        // TODO change by /hosttype/product_parameter
+        $logger->debug('GCR:productParameterName:'.$productParameterName);
+        $logger->debug('GCR:productName:'.$productName);
+        $OSType = $envdetails->getServer()->getOs();
+        $script_name = $OSType.'/'.$productName.'_'.$productParameterName.'.sh';
+        $logger->debug('GCR:script_name:'.$script_name);
+        
+        $root_dir = $this->container->getParameter('kernel.root_dir');
+//        $ssh_dir = $root_dir.'/../ssh';
+        
+        
+        
+        $scripts_local_dir = $root_dir.'/../scripts';
+        $logger->debug('GCR:scripts_local_dir:'.$scripts_local_dir);
+        
+        // change name based on the /hosttype/product_parameter
+        $ssh_local_script_path = $scripts_local_dir.'/'.$script_name;
+        
+        return file_exists($ssh_local_script_path);
+        
+        
+    }
+
+    
+    
+    
+    
+    
     
 }
 

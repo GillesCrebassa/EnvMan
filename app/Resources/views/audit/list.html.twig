@@ -24,12 +24,17 @@
             <table class="table table-bordered">
              <thead>
                 <tr>
+                  <th>environmentId</th>
                   <th>environmentName</th>
+                  <th>envDetailsId</th>
                   <th>serverName</th>
                   <th>servernameCategory</th>
                   <th>serverUser</th>
                   <th>productName</th>
+                  <th>parameterId</th>                  
                   <th>parameterName</th>
+                  <th>script available</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>             
@@ -40,7 +45,7 @@
                     $dataSummary[] = array(
                         'environmentId'=> $environmentId,
                         'environmentName' =>$environmentName,
-                        'envdetaileId' => $envdetaileId,
+                        'envdetailsId' => $envdetailsId,
                         'serverId' => $serverId,
                         'serverName' => $serverName,
                         'servernameCategory' => $servernameCategory,        
@@ -54,12 +59,20 @@
                     
 
 
+                         <td>{{ dataSummary_row.environmentId }}</td>
                          <td>{{ dataSummary_row.environmentName }}</td>
+                         <td>{{ dataSummary_row.envdetailsId }}</td>
                          <td>{{ dataSummary_row.serverName }}</td>
                          <td>{{ dataSummary_row.servernameCategory }}</td>
                          <td>{{ dataSummary_row.serverUser }}</td>
                          <td>{{ dataSummary_row.productName }}</td>
+                         <td>{{ dataSummary_row.parameterId }}</td>
                          <td>{{ dataSummary_row.parameterName }}</td>
+                         <!-- TODO add icon (ok / nok) -->
+                         <td>{{ dataSummary_row.fileexist }}</td>
+                         <td>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign glyphicon-align-left"></span><a href="/audit/checkparam/{{ dataSummary_row.environmentId }}/{{ dataSummary_row.envdetailsId }}/{{ dataSummary_row.parameterId }}"> Check</a></button>
+                         </td>
                      </tr>
         {% endfor %}      
               </tbody>
