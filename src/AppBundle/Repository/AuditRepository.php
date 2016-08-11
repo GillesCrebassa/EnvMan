@@ -10,4 +10,24 @@ namespace AppBundle\Repository;
  */
 class AuditRepository extends \Doctrine\ORM\EntityRepository
 {
+            
+    public function findByEnvDetailsIdAndParamId($envDetailsId,$productParameterId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT a,ed,pp FROM AppBundle:Audit a 
+                JOIN a.envDetails ed
+                JOIN a.productParameter pp
+                WHERE ed.id = :envDetailsId 
+                AND pp.id = :productParameterId'
+            )->setParameter('envDetailsId', $envDetailsId)
+             ->setParameter('productParameterId', $productParameterId)
+                ;
+        try {
+            return $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }    
+    
 }

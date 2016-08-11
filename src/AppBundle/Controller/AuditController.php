@@ -20,6 +20,7 @@ use AppBundle\Entity\ProductParameter;
 use AppBundle\Entity\Server;
 use AppBundle\Entity\Environment;
 
+use AppBundle\Entity\Audit;
 
 
 
@@ -154,7 +155,8 @@ class AuditController extends Controller {
                             'productName'=> $productName,
                             'parameterId'=> $parameterId,
                             'parameterName' => $parameterName,
-                            'fileexist' => $this->auditCheckParamExist($environment->getId(),$envdetails_row->getId(),$productParameter_row->getId()),
+                            'fileexist' => $this->auditCheckParamExist($envdetails_row->getId(),$productParameter_row->getId()),
+                            'lastValue' => $this->auditLastValue($envdetails_row->getId(),$productParameter_row->getId()),
                         );
     //                    var_dump($dataSummary);
                     }
@@ -173,15 +175,13 @@ class AuditController extends Controller {
     
     /**
      * TODO ADD PARAMETERS Server, environment, parameter
-     * @Route("/audit/checkparam/{envId}/{envDetailsId}/{paramId}", name="audit_checkparam")
+     * @Route("/audit/checkparam/{envDetailsId}/{paramId}", name="audit_checkparam")
      */
-    public function auditCheckParamListAction($envId,$envDetailsId,$paramId) {
+    public function auditCheckParamListAction($envDetailsId,$paramId) {
         
         
         $logger = $this->get('logger');
         $logger->debug('GCR:before auditCheckParamListAction');
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
-        $environment = $repository->find($envId);
         $repository = $this->getDoctrine()->getRepository('AppBundle:EnvDetails');
         $envdetails = $repository->find($envDetailsId);
         $repository = $this->getDoctrine()->getRepository('AppBundle:ProductParameter');
@@ -229,21 +229,26 @@ class AuditController extends Controller {
         $sftp->chmod($ssh_remote_script_path, 0700);
         $exec = $session->getExec();
         $result =  $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS,1);
+        
+        $audit = new Audit();
+        $audit->setEnvDetails($envdetails);
+        $audit->setProductParameter($productParameter);
+        $audit->setResult($result);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($audit);
+        $em->flush();
 
 //        return new Response('<html><body>Hello '.$process->getErrorOutput().' : root_dir:'.$ssh_dir.': command:'.$command.' result : '.$result.' !</body></html>');
+        
+        
         return new Response('<html><body>Hello result : '.$result.' !</body></html>');
-        
-        
-        
     }
     
-    public function auditCheckParamExist($envId,$envDetailsId,$paramId) {
+    public function auditCheckParamExist($envDetailsId,$paramId) {
         
         
         $logger = $this->get('logger');
         $logger->debug('GCR:before auditCheckParamListAction');
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
-        $environment = $repository->find($envId);
         $repository = $this->getDoctrine()->getRepository('AppBundle:EnvDetails');
         $envdetails = $repository->find($envDetailsId);
         $repository = $this->getDoctrine()->getRepository('AppBundle:ProductParameter');
@@ -276,9 +281,19 @@ class AuditController extends Controller {
 
     
     
-    
-    
-    
-    
+    public function auditLastValue($envDetailsId,$paramId) {
+        $logger = $this->get('logger');
+        $logger->debug('GCR:before auditLastValue');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Audit');
+        $audit = $repository->findByEnvDetailsIdAndParamId($envDetailsId,$paramId);
+        if ($audit != null)
+        {
+            return $audit->getResult();
+        }
+        else
+        {
+            return "";
+        }
+    }
 }
 

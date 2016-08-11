@@ -27,23 +27,18 @@ class Audit
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="ServerCategory", inversedBy="Audit")
-     * @ORM\JoinColumn(name="servercategory_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="EnvDetails", inversedBy="Audit")
+     * @ORM\JoinColumn(name="envDetails_id", referencedColumnName="id")
      * @Assert\NotBlank() 
+     * @Assert\NotNull() 
      */
-    private $servercategory;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Server", inversedBy="Audit")
-     * @ORM\JoinColumn(name="server_id", referencedColumnName="id")
-     * @Assert\NotBlank() 
-     */
-    private $server;
+    private $envDetails;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductParameter", inversedBy="Audit")
      * @ORM\JoinColumn(name="productparamer_id", referencedColumnName="id")
      * @Assert\NotBlank() 
+     * @Assert\NotNull() 
      */
     private $productParameter;
     
@@ -58,8 +53,7 @@ class Audit
     
     public function __construct()
     {
-        $this->servercategory = new ArrayCollection();
-        $this->server= new ArrayCollection();
+        $this->envDetails = new ArrayCollection();
         $this->productParameter = new ArrayCollection();
     }    
 /*
@@ -81,50 +75,26 @@ class Audit
     }
 
     /**
-     * Set server
+     * Set envDetails
      *
-     * @param \AppBundle\Entity\Server $server
+     * @param \AppBundle\Entity\EnvDetails $envDetails
      *
      * @return Audit
      */
-    public function setServer(\AppBundle\Entity\Server $server = null)
+    public function setEnvDetails(\AppBundle\Entity\EnvDetails $envDetails = null)
     {
-        $this->server = $server;
+        $this->envDetails = $envDetails;
         return $this;
     }
 
     /**
-     * Get server
+     * Get envDetails
      *
-     * @return \AppBundle\Entity\Server
+     * @return \AppBundle\Entity\EnvDetails
      */
-    public function getServer()
+    public function getEnvDetails()
     {
-        return $this->server;
-    }
-
-    
-    /**
-     * Set serverCategory
-     *
-     * @param \AppBundle\Entity\ServerCategory $servercategory
-     *
-     * @return Audit
-     */
-    public function setServerCategory(\AppBundle\Entity\ServerCategory $servercategory = null)
-    {
-        $this->servercategory = $servercategory;
-        return $this;
-    }
-
-    /**
-     * Get serverCategory
-     *
-     * @return \AppBundle\Entity\ServerCategory
-     */
-    public function getServerCategory()
-    {
-        return $this->servercategory;
+        return $this->envDetails;
     }
 
     /**
@@ -149,6 +119,31 @@ class Audit
     {
         return $this->productParameter;
     }    
+    
+    
+    /**
+     * Set result
+     *
+     * @param string $result
+     *
+     * @return Audit
+     */
+    public function setResult($result)
+    {
+        $this->result = $result;
+        return $this;
+    }
+
+    /**
+     * Get result
+     *
+     * @return string
+     */
+    public function getResult()
+    {
+        return $this->result;
+    }    
+  
     
 }
 
