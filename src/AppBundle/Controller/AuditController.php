@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 use Symfony\Component\Process\Process;
 use \Symfony\Component\Process\Exception\ProcessFailedException;
@@ -295,5 +296,25 @@ class AuditController extends Controller {
             return "";
         }
     }
+    
+    /**
+     * @Route("/audit/checkparamjson/{envDetailsId}/{paramId}", name="audit_checkparamjson")
+     */    
+    public function auditCheckParamJson($envDetailsId,$paramId) {
+        $logger = $this->get('logger');
+        $logger->debug('GCR:before auditCheckParamJson');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Audit');
+        $audit = $repository->findByEnvDetailsIdAndParamId($envDetailsId,$paramId);
+        if ($audit != null)
+        {
+            return new JsonResponse(array('result' => $audit->getResult()));
+        }
+        else
+        {
+            return new JsonResponse(array('error' => '2'));
+        }
+    }
+    
+    
 }
 
