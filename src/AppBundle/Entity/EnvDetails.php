@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use AppBundle\Entity\Server;
 use AppBundle\Entity\ServerCategory;
 use AppBundle\Entity\Environment;
+use AppBundle\Entity\Audit;
 /**
  * EnvDetails
  *
@@ -19,7 +20,6 @@ class EnvDetails
 {
     /**
      * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -89,6 +89,23 @@ class EnvDetails
         return $this->id;
     }
 
+    
+    /**
+     * Set id
+     *
+     * @param string $id
+     *
+     * @return EnvDetails
+     */
+    /*
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+    */
+    
     /**
      * Get user
      *

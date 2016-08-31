@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Entity\EnvDetails;
 
 
 /**
@@ -27,7 +28,7 @@ class Audit
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="EnvDetails", inversedBy="Audit")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EnvDetails")
      * @ORM\JoinColumn(name="envDetails_id", referencedColumnName="id")
      * @Assert\NotBlank() 
      * @Assert\NotNull() 
@@ -35,7 +36,7 @@ class Audit
     private $envDetails;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProductParameter", inversedBy="Audit")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductParameter")
      * @ORM\JoinColumn(name="productparamer_id", referencedColumnName="id")
      * @Assert\NotBlank() 
      * @Assert\NotNull() 

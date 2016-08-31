@@ -13,18 +13,30 @@ class AuditRepository extends \Doctrine\ORM\EntityRepository
             
     public function findByEnvDetailsIdAndParamId($envDetailsId,$productParameterId)
     {
+        
+        //TODO adapt with date
         $query = $this->getEntityManager()
             ->createQuery(
                 'SELECT a,ed,pp FROM AppBundle:Audit a 
                 JOIN a.envDetails ed
                 JOIN a.productParameter pp
                 WHERE ed.id = :envDetailsId 
-                AND pp.id = :productParameterId'
-            )->setParameter('envDetailsId', $envDetailsId)
+                AND pp.id = :productParameterId
+                ORDER BY a.id desc'
+            )->setMaxResults(1)
+             ->setParameter('envDetailsId', $envDetailsId)
              ->setParameter('productParameterId', $productParameterId)
                 ;
         try {
-            return $query->getSingleResult();
+            $result = $query->getSingleResult();
+            if ($result != null) 
+            {
+                return $result;
+            }
+            else
+            {
+                return null;
+            }
         } catch (\Doctrine\ORM\NoResultException $e) {
             return null;
         }
