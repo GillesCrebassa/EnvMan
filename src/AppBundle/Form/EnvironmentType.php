@@ -15,6 +15,7 @@ class EnvironmentType extends AbstractType
         $builder
             ->add('name','text')
             ->add('description','textarea')
+            ->add('responsible','text')
             ->add('save', 'submit')
         ;
     }

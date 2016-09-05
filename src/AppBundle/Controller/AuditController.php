@@ -301,8 +301,6 @@ class AuditController extends Controller {
         $repositoryParam = $this->getDoctrine()->getRepository('AppBundle:ProductParameter');
         $repositoryAudit = $this->getDoctrine()->getRepository('AppBundle:Audit');
 
-        $environments = $repositoryEnv->findAll();
-        if ($environments != null) {
             // list all products
             $products = $repositoryProducts->findAll();            
             $productsvalue= array();
@@ -313,6 +311,8 @@ class AuditController extends Controller {
                     $listvalue = array();
                     $productParamId = $productsParam->getId();
                     $logger->debug('GCR:productParamId:' . $productParamId);
+                    $environments = $repositoryEnv->findAll();
+                    if ($environments != null) {
                     foreach ($environments as $environment) {
                         // list all env
                         $envId = $environment->getId();
@@ -326,6 +326,7 @@ class AuditController extends Controller {
                             if ($audit_row != null) {
                                 $value = trim($audit_row->getResult());
                                 $numberDetected = 1;
+                                $valueEnv = array();
 /*                                
                                 var_dump($value);
                                 var_dump($listvalue);
@@ -339,9 +340,12 @@ class AuditController extends Controller {
                                     var_dump($listvalue[$value]);
                                     var_dump("LOL 2!!");                                    
  */
-                                    $numberDetected = $listvalue[$value] + 1;
+//                                    $numberDetected = $listvalue[$value] + 1;
+                                    $valueEnv = $listvalue[$value];
                                 }
-                                $listvalue[$value] = $numberDetected;
+                                $valueEnv[] = $environment->getName().'-'.$envDetails_row->getServercategory()->getName().'-'.$envDetails_row->getServer()->getName();
+//                                $listvalue[$value] = $numberDetected;
+                                $listvalue[$value] = $valueEnv;
                                 $logger->debug('GCR:value:' . $value);
                             }
                         }
@@ -354,10 +358,10 @@ class AuditController extends Controller {
                 }
                 $productsvalue[$product->getName()] = $productsParamvalue;
             }
-            var_dump($productsvalue);
+          //  var_dump($productsvalue);
         }
         
-        return new JsonResponse(array('result' => 'ok'));
+        return new JsonResponse(array('result' => $productsvalue));
     }
 
 }

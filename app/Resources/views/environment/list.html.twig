@@ -31,6 +31,7 @@
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
+                  <th>Responsible</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -39,11 +40,13 @@
                      <tr>
                          <td>{{ environment.name }}</td>
                          <td>{{ environment.description }}</td>
+                         <td>{{ environment.responsible }}</td>
                          <td>
                              <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign glyphicon-align-left"></span><a href="/environment/view/{{ environment.id }}"> View</a></button>
                              <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/environment/edit/{{ environment.id }}"> Edit</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-remove-sign glyphicon-align-left"></span><a href="/environment/delete/{{ environment.id }}"> Delete</a></button>
                              <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-search glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}"> Details</a></button>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-search glyphicon-align-left"></span><a href="/audit/{{ environment.id }}"> Audit</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-cloud-upload glyphicon-align-left"></span><a href="/audit/{{ environment.id }}"> Audit</a></button>
                          </td>
                      </tr>
         {% endfor %}      

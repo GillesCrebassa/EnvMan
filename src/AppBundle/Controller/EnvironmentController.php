@@ -189,6 +189,9 @@ class EnvironmentController extends Controller
             $form->handleRequest($request);
             
             if ($form->get('save')->isClicked()) {
+                // TODO Request confirmation to user ? Admin ? send mail to responsible ?
+                // TODO Check Details to delete info on DB EnvDetails.
+                
                 if ($form->isValid()) {
                     $em = $this->getDoctrine()->getManager();
                     $em->remove($environment);
@@ -209,7 +212,7 @@ class EnvironmentController extends Controller
             }
         }
         
-        return $this->render('environment/edit.html.twig', array(
+        return $this->render('environment/delete.html.twig', array(
             'form' => $form->createView(),
         ));
         

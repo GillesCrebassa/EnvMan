@@ -35,11 +35,24 @@ class Environment
      */
     private $name;
 
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="responsible", type="string", length=50, nullable=true)
+     */
+    private $responsible;
+
+    
+    // TODO Add release Basis of internal developed product
+    // TODO Add Standard or custom release (with specific devel not included in standard delivery)
+    
+    
     /**
      * @var string
      *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     */
+     */    
     private $description;
 
     /**
@@ -90,6 +103,33 @@ class Environment
         return $this->name;
     }
 
+    
+    /**
+     * Set responsible
+     *
+     * @param string $responsible
+     *
+     * @return Environment
+     */
+    public function setResponsible($responsible)
+    {
+        $this->responsible = $responsible;
+
+        return $this;
+    }
+
+    /**
+     * Get responsible
+     *
+     * @return string
+     */
+    public function getResponsible()
+    {
+        return $this->responsible;
+    }    
+    
+    
+    
     /**
      * Set description
      *

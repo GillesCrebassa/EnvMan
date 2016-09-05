@@ -7,6 +7,7 @@
 {{ form_errors(form) }}
     {{ form_row(form.name, { 'attr':{'disabled':'disabled'} }) }}
     {{ form_row(form.description, { 'attr':{'disabled':'disabled'} }) }}
+    {{ form_row(form.responsible, { 'attr':{'disabled':'disabled'} }) }}
     {{ form_widget(form.save, { 'label': 'Delete' }) }}
 {{ form_end(form) }}
     
