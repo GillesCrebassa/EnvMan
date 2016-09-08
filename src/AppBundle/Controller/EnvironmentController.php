@@ -3,6 +3,8 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 //use Symfony\Component\HttpFoundation\Response;
@@ -26,16 +28,21 @@ class EnvironmentController extends Controller
         return $this->redirectToRoute('environment_summary');
     }
     
+/*      , requirements={"page" = "\d+"} */
     
     /**
-     * @Route("/environment/", name="environment_summary")
+     * @Route("/environment/{page}", requirements={"page" = "\d+"}, defaults={"page"= 1}, name="environment_summary")
+     * @Template("environment/list.html.twig")
+     * @param int $page Le numéro de la page
+     * @return array
      */
-    public function environmentsListAction(Request $request)
+    public function environmentsListAction($page)
     {
-
+        $nbArticlesParPage = 20; //$this->container->getParameter('front_nb_articles_par_page');
+        
         $environments = new Environment();
         $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
-        $environments = $repository->findAllOrderedByName();
+        $environments = $repository->findAllOrderedByName($page, $nbArticlesParPage);
 /*
         if (!$environments) {
             throw $this->createNotFoundException(
@@ -43,9 +50,23 @@ class EnvironmentController extends Controller
             );
         }        
 */
+        $pagination = array(
+            'page' => $page,
+            'nbPages' => ceil(count($environments) / $nbArticlesParPage),
+            'nomRoute' => 'environment_summary',
+            'paramsRoute' => array()
+        );
+
+        return array(         
+            'environments' => $environments,
+            'pagination' => $pagination
+        );        
+        /*
         return $this->render('environment/list.html.twig', array(
             'environments' => $environments,
         ));
+         * 
+         */
     }
     
     

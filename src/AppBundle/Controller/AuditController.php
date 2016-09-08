@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Process\Process;
 use \Symfony\Component\Process\Exception\ProcessFailedException;
+use \RuntimeException;
 use Ssh;
 use Ssh\SshConfigFileConfiguration;
 use Ssh\Session;
@@ -79,15 +80,29 @@ class AuditController extends Controller {
         $scripts_local_dir = $root_dir . '/../scripts';
         $ssh_local_script_path = $scripts_local_dir . '/em_os.sh';
         $ssh_remote_script_path = $ssh_remote_home_dir . '/em_os.sh';
-        $configuration = new Ssh\Configuration('ip');
-        $authentication = new Ssh\Authentication\Password('user', 'pass');
-        $session = new Session($configuration, $authentication);
-        $sftp = $session->getSftp();
-        $sftp->mkdir($ssh_remote_home_dir);
-        $sftp->send($ssh_local_script_path, $ssh_remote_script_path);
-        $sftp->chmod($ssh_remote_script_path, 0700);
-        $exec = $session->getExec();
-        $result = $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS, 1);
+        try {
+            $configuration = new Ssh\Configuration('ip');
+            $authentication = new Ssh\Authentication\Password('user', 'pass');
+            
+    
+            $session = new Session($configuration, $authentication);
+            if ($session != null)
+            {
+                $sftp = $session->getSftp();
+                $sftp->mkdir($ssh_remote_home_dir);
+                $sftp->send($ssh_local_script_path, $ssh_remote_script_path);
+                $sftp->chmod($ssh_remote_script_path, 0700);
+                $exec = $session->getExec();
+                $result = $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS, 1);
+            }
+        }
+        catch (\RuntimeException $e)
+        {
+            if ($e instanceof HandledErrorException) {
+                $e->cleanOutput();
+            }
+            return new Response('<html><body>Error : ' . $e->getMessage(). ' !</body></html>');
+        }
 
 //        return new Response('<html><body>Hello '.$process->getErrorOutput().' : root_dir:'.$ssh_dir.': command:'.$command.' result : '.$result.' !</body></html>');
         return new Response('<html><body>Hello result : ' . $result . ' !</body></html>');
@@ -200,25 +215,31 @@ class AuditController extends Controller {
         $configuration = new Ssh\Configuration($server_ssh);
         $authentication = new Ssh\Authentication\Password($user_ssh, $pass_ssh);
         $logger->debug('GCR:session started');
-        $session = new Session($configuration, $authentication);
-        $logger->debug('GCR:session done');
-        $sftp = $session->getSftp();
-        $sftp->mkdir($ssh_remote_home_dir);
-        $sftp->mkdir($ssh_remote_home_dir . '/' . $OSType);
-        // TODO in case of issue... folder not existing
-        $sftp->send($ssh_local_script_path, $ssh_remote_script_path);
-        $sftp->chmod($ssh_remote_script_path, 0700);
-        $exec = $session->getExec();
-        $result = $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS, 1);
+        try
+        {
+            $session = new Session($configuration, $authentication);
+            $logger->debug('GCR:session done');
+            $sftp = $session->getSftp();
+            $sftp->mkdir($ssh_remote_home_dir);
+            $sftp->mkdir($ssh_remote_home_dir . '/' . $OSType);
+            // TODO in case of issue... folder not existing
+            $sftp->send($ssh_local_script_path, $ssh_remote_script_path);
+            $sftp->chmod($ssh_remote_script_path, 0700);
+            $exec = $session->getExec();
+            $result = $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS, 1);
 
-        $audit = new Audit();
-        $audit->setEnvDetails($envdetails);
-        $audit->setProductParameter($productParameter);
-        $audit->setResult($result);
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($audit);
-        $em->flush();
-
+            $audit = new Audit();
+            $audit->setEnvDetails($envdetails);
+            $audit->setProductParameter($productParameter);
+            $audit->setResult($result);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($audit);
+            $em->flush();
+        }
+        catch(\RuntimeException $e )
+        {
+            return new Response('<html><body>Error : ' . $e->getMessage(). ' !</body></html>');
+        }
 //        return new Response('<html><body>Hello '.$process->getErrorOutput().' : root_dir:'.$ssh_dir.': command:'.$command.' result : '.$result.' !</body></html>');
 
 
