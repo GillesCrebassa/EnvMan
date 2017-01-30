@@ -385,6 +385,143 @@ class AuditController extends Controller {
         return new JsonResponse(array('result' => $productsvalue));
     }
 
+    
+    /**
+     * @Route("/audit/dashboardpart/{productId}/{paramId}", name="audit_dashboardpart")
+     * <script type="text/javascript" src="{{ asset('bundles/andreyboloninchartjs/js/Chart.min.js') }}"></script>
+     */
+    public function auditDashboardpart($productId,$paramId) {
+        $resultChart = array();
+        // [Product1][parameter1] --> {[key 1],[value number]}, {[key 2],[value number]}, {[key 3],[value number]}
+        // [Product1][parameter2] --> {[key 1],[value number]}, {[key 2],[value number]}
+        // [Product2][parameter1] --> {[key 1],[value number]}, {[key 2],[value number]}, {[key 3],[value number]}, {[key 4],[value number]}
+        $logger = $this->get('logger');
+        $logger->debug('GCR:before auditDashboard');
+        $repositoryEnv = $this->getDoctrine()->getRepository('AppBundle:Environment');
+        $repositoryEnvDetails = $this->getDoctrine()->getRepository('AppBundle:EnvDetails');
+        $repositoryProducts = $this->getDoctrine()->getRepository('AppBundle:Product');
+        $repositoryParam = $this->getDoctrine()->getRepository('AppBundle:ProductParameter');
+        $repositoryAudit = $this->getDoctrine()->getRepository('AppBundle:Audit');
+
+            // list all products
+                $productsvalue= array();
+                $productsParams = $repositoryParam->findAllByProductId($productId); // productId
+                foreach ($productsParams as $productsParam) {
+                    $listvalue = array();
+                    $productParamId = $paramId;
+                    $logger->debug('GCR:productParamId:' . $productParamId);
+                    $environments = $repositoryEnv->findAll();
+                    if ($environments != null) {
+                    foreach ($environments as $environment) {
+                        // list all env
+                        $envId = $environment->getId();
+                        $logger->debug('GCR:envId:' . $envId);
+                        $envDetails = $repositoryEnvDetails->findAllByEnvId($envId);
+                        foreach ($envDetails as $envDetails_row) {
+                            $envDetailsId = $envDetails_row->getId();
+                            $logger->debug('GCR:envDetailsId:' . $envDetailsId);
+
+                            $audit_row = $repositoryAudit->findByEnvDetailsIdAndParamId($envDetailsId, $productParamId);
+                            if ($audit_row != null) {
+                                $value = trim($audit_row->getResult());
+                                $numberDetected = 1;
+                                $valueEnv = array();
+/*                                
+                                var_dump($value);
+                                var_dump($listvalue);
+                                var_dump('array_key_exists($value,$listvalue)');
+                                var_dump(array_key_exists($value,$listvalue));
+ */
+                                if (array_key_exists($value,$listvalue) == true)
+                                {
+/*
+                                    var_dump("LOL 1!!");
+                                    var_dump($listvalue[$value]);
+                                    var_dump("LOL 2!!");                                    
+ */
+//                                    $numberDetected = $listvalue[$value] + 1;
+                                    $valueEnv = $listvalue[$value];
+                                }
+                                $valueEnv[] = $environment->getName().'-'.$envDetails_row->getServercategory()->getName().'-'.$envDetails_row->getServer()->getName();
+//                                $listvalue[$value] = $numberDetected;
+                                $listvalue[$value] = $valueEnv;
+                                $logger->debug('GCR:value:' . $value);
+                            }
+                        }
+                    }
+                    if ($listvalue != null)
+                    {
+//                        var_dump($listvalue);
+                    }
+                    /* Sample 
+                     * 
+                            var data = {
+                                labels: [
+                                    "Red",
+                                    "Blue",
+                                    "Yellow"
+                                ],
+                                datasets: [
+                                    {
+                                        data: [300, 50, 100],
+                                        tooltipItem: [
+                                            "sdfsf",
+                                            "dsfsdf",
+                                            "sdfsf"
+                                        ],
+                                        backgroundColor: [
+                                            "#FF6384",
+                                            "#36A2EB",
+                                            "#FFCE56"
+                                        ],
+                                        hoverBackgroundColor: [
+                                            "#FF6384",
+                                            "#36A2EB",
+                                            "#FFCE56"
+                                        ]
+                                    }],
+                                data.datasets[0].data[tooltipItem
+                            };                     
+                     * 
+                     * 
+                     * data["lablels"]->{"Red","Blue","Yellow"};
+                     * data["datasets"]->data
+                     * 
+                     * 
+                     */
+                    $dataEnv = array();
+                    $data = array();
+                    $dataEnv[]="Red"; // for envs all env for 1 version 
+                    $dataEnv[]="Blue";
+                    $dataEnv[]="Yellow";
+                    $datasets = array();
+                    $datavalue = array();
+                    $datavalue[] = 300;
+                    $datavalue[] = 50;
+                    $datavalue[] = 100;
+                    $datasets[data] = $datavalue; 
+                    $data[labels]=$dataEnv;
+                    $data[datasets]=array($datasets);
+                    
+//                    $productsParamvalue[$productsParam->getName()] = $listvalue;
+//                    $productsvalue = $productsParamvalue;                    
+            }
+          //  var_dump($productsvalue);
+        }
+        // thtp://www.chartjs.org/docs/#doughnut-pie-chart
+        
+        
+        
+//        return new JsonResponse(array('result' => $listvalue));
+        $datajson = Json_decode($data);
+//        var_dump($datajson);
+        return $this->render('audit/chart.html.twig', array(
+                    'data' => $datajson,
+        ));
+//        return new JsonResponse($data);
+    }
+    
+    
 }
 
 

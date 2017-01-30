@@ -26,7 +26,7 @@ php app/console debug:router --env=prod
 # for css , js ...
 
 php app/console assets:install --symlink
-
+php app/console assets:install --symlink web
 php app/console cache:clear
 php app/console assets:install --symlink
 php app/console assetic:dump

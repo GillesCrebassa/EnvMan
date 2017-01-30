@@ -19,5 +19,5 @@ class ProductRepository extends EntityRepository
                 'SELECT p FROM AppBundle:Product p ORDER BY p.name ASC'
             )
             ->getResult();
-    }    
+    }     
 }
