@@ -13,7 +13,7 @@
     </div>
     <div class="row">
         <div class="col-xs-8 col-md-8 col-lg-8 left">
-<!--            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/product/add"> Add</a></button> -->
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/audit/checkall/{{dataSummary_row.environmentId}}"> Check All</a></button> 
         </div>
     </div>    
     <div class="row spacer">
@@ -67,7 +67,7 @@
                          <td>{{ dataSummary_row.fileexist }}</td>
                          <td>{{ dataSummary_row.lastValue }}</td>                         
                          <td>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign glyphicon-align-left"></span><a href="/audit/checkparam/{{ dataSummary_row.envdetailsId }}/{{ dataSummary_row.parameterId }}"> Check</a></button>
+                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign glyphicon-align-left"></span><a href="/audit/checkparam/{{dataSummary_row.environmentId}}/{{ dataSummary_row.envdetailsId }}/{{ dataSummary_row.parameterId }}"> Check</a></button>
                          </td>
                      </tr>
         {% endfor %}      
