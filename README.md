@@ -2,7 +2,7 @@
 Environments Manager
 
 
-This applicaiton allow to manage many environments with link to server to inventorize all informations.
+This application allows to manage many environments with link to server to inventorize all informations.
 
 by exemple, you have a programming environment, test environment and production environment.
 
