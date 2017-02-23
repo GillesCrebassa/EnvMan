@@ -7,29 +7,26 @@
     <br>
     <br>
     <div class="row">
-        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+        <div class="col-xs-16 col-md-16 col-lg-16 centered">
             <h1>Environments Details List for {{ environment.name }}</h1>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-8 col-md-8 col-lg-8 left">
-            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/add"> Add</a></button>
-        </div>
-    </div>    
     <div class="row spacer">
         <br>        
     </div>    
     <div class="row">
-        <div class="col-lg-8 centered">
-            <table class="table table-bordered">
+        <div class="col-xs-16 col-md-16 col-lg-16">
+            <div class="fresh-table full-color-red">            
+                <div class="toolbar">
+                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/add"> Add</a></button>
+                </div>  
+            <table id="fresh-table" class="table">
              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Description</th>
-                  <th>Server Name</th>
-                  <th>user</th>
-                  <th>action</th>
-                </tr>
+                  <th data-field="type" data-sortable="true">Type</th>
+                  <th data-field="description" data-sortable="true">Description</th>
+                  <th data-field="servername" data-sortable="true">Server Name</th>
+                  <th data-field="user" data-sortable="true">user</th>
+                  <th data-field="actions" data-sortable="false">action</th>
               </thead>
               <tbody>             
         {% for envdetails_row in envdetails if envdetails_row %}
@@ -39,11 +36,10 @@
                          <td>{{ envdetails_row.server.name }}</td>
                          <td>{{ envdetails_row.user }}</td>
                          <td>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign  glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/view/{{ envdetails_row.id }}"> View</a></button>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/edit/{{ envdetails_row.id }}"> Edit</a></button>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/envdetails/{{ environment.id }}/delete/{{ envdetails_row.id }}"> Delete</a></button>
+                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="/envdetails/{{ environment.id }}/view/{{ envdetails_row.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="/envdetails/{{ environment.id }}/edit/{{ envdetails_row.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="/envdetails/{{ environment.id }}/delete/{{ envdetails_row.id }}"><i class="fa"></i></a>
                          </td>
-                         
                      </tr>
         {% endfor %}      
               </tbody>
@@ -52,3 +48,56 @@
   </div><!-- end row -->
 </div><!-- end container -->
 {%  endblock body %}
+
+
+
+
+
+{% block javaScript_extra %}
+<!-- TODO add in specific twig -->
+<script type="text/javascript" src="{{ asset('assets/js/bootstrap-table.js') }}"></script>
+<script type="text/javascript">
+        var $table = $('#fresh-table'),
+            full_screen = false;
+        $().ready(function(){
+            $table.bootstrapTable({
+                toolbar: ".toolbar",
+    
+                showRefresh: false,
+                search: true,
+                showToggle: false,
+                showColumns: false,
+                pagination: true,
+                striped: true,
+                pageSize: 25,
+                pageList: [8,10,25,50,100],
+                
+                formatShowingRows: function(pageFrom, pageTo, totalRows){
+                    //do nothing here, we don't want to show the text "showing x of y from..." 
+                },
+                formatRecordsPerPage: function(pageNumber){
+                    return pageNumber + " rows visible";
+                },
+                icons: {
+                    refresh: 'fa fa-refresh',
+                    toggle: 'fa fa-th-list',
+                    columns: 'fa fa-columns',
+                    detailOpen: 'fa fa-plus-circle',
+                    detailClose: 'fa fa-minus-circle'
+                }
+            });
+            $(window).resize(function () {
+                $table.bootstrapTable('resetView');
+            });
+        });
+</script>
+{% endblock javaScript_extra %}
+
+{% block stylesheets_extra %} 
+<link href="{{ asset('assets/css/fresh-bootstrap-table.css')}}" rel="stylesheet">
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+{% endblock stylesheets_extra %} 
+
+
+

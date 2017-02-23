@@ -34,7 +34,7 @@ class ProductParameterController extends Controller {
     public function parameterAddAction($productId, Request $request) {
         $productParameter = new ProductParameter();
         $form = $this->createForm(new ProductParameterType(), $productParameter);
-
+        
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
@@ -42,7 +42,6 @@ class ProductParameterController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($productParameter);
                 $em->flush();
-
                 $this->addFlash(
                         'success', 'Your new parameter of an product were saved!'
                 );

@@ -3,6 +3,8 @@
 {% block title %}View a server{% endblock %}
 {% block body %}
  <div class="container">
+    <br>
+    <br>
 {{ form_start(form) }}
 {{ form_errors(form) }}
     {{ form_row(form.name, { 'attr':{'disabled':'disabled'} }) }}
@@ -11,6 +13,5 @@
     {{ form_row(form.active, { 'attr':{'disabled':'disabled'} }) }}
     {{ form_row(form.save, { 'label': 'Return' }) }}
 {{ form_end(form) }}
-    
 </div>
 {%  endblock body %}

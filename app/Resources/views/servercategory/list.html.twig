@@ -11,34 +11,34 @@
             <h1>Servers Category List</h1>
         </div>
     </div>
+    <div class="row spacer">
+        <br>        
+    </div>
+<!--    
     <div class="row">
         <div class="col-xs-8 col-md-8 col-lg-8 left">
             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/servercategory/add"> Add</a></button>
         </div>
     </div>    
-    <div class="row spacer">
-        <br>        
-    </div>    
+-->
     <div class="row">
-        <div class="col-lg-8 centered">
-            <table class="table table-bordered">
+        <div class="col-md-16">
+            <div class="fresh-table full-color-red">
+                <div class="toolbar">
+                        <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/servercategory/add"> Add</a></button>
+                </div>                
+             <table id="fresh-table" class="table">
              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Action</th>                  
-                  <th>Used on Env - Server</th>
-                  <th>Products Used</th>
-                </tr>
+                  <th class="text-center" data-field="name" data-sortable="true">Name</th>
+<!--                  <th class="text-center" data-field="usedOnEnv" data-sortable="false">Used on Env - Server</th> -->
+                  <th class="text-center" data-field="productsUsed" data-sortable="true">Products Used</th> 
+                  <th class="text-center" data-field="action" data-sortable="false">Action</th>                  
               </thead>
               <tbody>             
         {% for servercategory_row in servercategory %}
                      <tr>
                          <td>{{ servercategory_row.name }}</td>
-                         <td>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-info-sign  glyphicon-align-left"></span><a href="/servercategory/view/{{ servercategory_row.id }}"> View</a></button>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-edit glyphicon-align-left"></span><a href="/servercategory/edit/{{ servercategory_row.id }}"> Edit</a></button>
-                             <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-minus-sign  glyphicon-align-left"></span><a href="/servercategory/delete/{{ servercategory_row.id }}"> Delete</a></button>
-                         </td>
+                         <!--
                          <td>
                              <ul>
                              {% for envdetails in servercategory_row.getEnvDetails() if envdetails %}
@@ -46,6 +46,7 @@
                              {% endfor %}                                 
                              </ul>
                          </td>                         
+                         -->
                          <td>
                              {{ servercategory_row.getProduct()|length }}
 {#
@@ -54,11 +55,67 @@
                              {% endfor %}                                 
 #}
                          </td>
+                         <td>
+                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="/servercategory/view/{{ servercategory_row.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="/servercategory/edit/{{ servercategory_row.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="/servercategory/delete/{{ servercategory_row.id }}"><i class="fa"></i></a>
+                         </td>
+                         
                      </tr>
         {% endfor %}      
               </tbody>
        </table>
+        </div>
     </div><!-- end col-lg-8 -->
   </div><!-- end row -->
 </div><!-- end container -->
 {%  endblock body %}
+
+
+{% block javaScript_extra %}
+<!-- TODO add in specific twig -->
+<script type="text/javascript" src="{{ asset('assets/js/bootstrap-table.js') }}"></script>
+<script type="text/javascript">
+        var $table = $('#fresh-table'),
+            full_screen = false;
+        $().ready(function(){
+            $table.bootstrapTable({
+                toolbar: ".toolbar",
+    
+                showRefresh: false,
+                search: true,
+                showToggle: false,
+                showColumns: false,
+                pagination: true,
+                striped: true,
+                pageSize: 25,
+                pageList: [8,10,25,50,100],
+                
+                formatShowingRows: function(pageFrom, pageTo, totalRows){
+                    //do nothing here, we don't want to show the text "showing x of y from..." 
+                },
+                formatRecordsPerPage: function(pageNumber){
+                    return pageNumber + " rows visible";
+                },
+                icons: {
+                    refresh: 'fa fa-refresh',
+                    toggle: 'fa fa-th-list',
+                    columns: 'fa fa-columns',
+                    detailOpen: 'fa fa-plus-circle',
+                    detailClose: 'fa fa-minus-circle'
+                }
+            });
+            $(window).resize(function () {
+                $table.bootstrapTable('resetView');
+            });
+        });
+</script>
+{% endblock javaScript_extra %}
+
+{% block stylesheets_extra %} 
+<link href="{{ asset('assets/css/fresh-bootstrap-table.css')}}" rel="stylesheet">
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+{% endblock stylesheets_extra %} 
+
+            
