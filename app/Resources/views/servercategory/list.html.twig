@@ -25,7 +25,7 @@
         <div class="col-md-16">
             <div class="fresh-table full-color-red">
                 <div class="toolbar">
-                        <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/servercategory/add"> Add</a></button>
+                        <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('servercategory_add')}}"> Add</a></button>
                 </div>                
              <table id="fresh-table" class="table">
              <thead>
@@ -56,9 +56,9 @@
 #}
                          </td>
                          <td>
-                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="/servercategory/view/{{ servercategory_row.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="/servercategory/edit/{{ servercategory_row.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="/servercategory/delete/{{ servercategory_row.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('servercategory_view', {'serverCategoryId': servercategory_row.id })}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="{{ path('servercategory_edit', {'serverCategoryId': servercategory_row.id })}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="{{ path('servercategory_delete', {'serverCategoryId': servercategory_row.id })}}"><i class="fa"></i></a>
                          </td>
                          
                      </tr>

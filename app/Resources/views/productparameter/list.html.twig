@@ -25,7 +25,7 @@
         <div class="col-md-16">
             <div class="fresh-table full-color-red">
                 <div class="toolbar">
-                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/parameter/{{ product.id }}/add"> Add</a></button>
+                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('parameter_add', {'productId': product.id })}}"> Add</a></button>
                 </div>
              <table id="fresh-table" class="table">
              <thead>
@@ -39,9 +39,9 @@
                          <td>{{ productparameter_row.name }}</td>
                          <td>{{ productparameter_row.description }}</td>
                          <td>
-                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="/parameter/{{ product.id }}/view/{{ productparameter_row.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="/parameter/{{ product.id }}/edit/{{ productparameter_row.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="/parameter/{{ product.id }}/delete/{{ productparameter_row.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('parameter_view', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="{{ path('parameter_edit', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="{{ path('parameter_delete', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>
                          </td>         
                      </tr>
         {% endfor %}      

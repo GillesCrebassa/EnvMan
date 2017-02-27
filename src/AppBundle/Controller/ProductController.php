@@ -125,7 +125,7 @@ class ProductController extends Controller
         ));
     }
     /**
-     * @Route("/product/delete/{productId}", name="productId_delete")
+     * @Route("/product/delete/{productId}", name="product_delete")
      */
     public function productDeleteAction($productId,Request $request)
     {

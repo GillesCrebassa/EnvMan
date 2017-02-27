@@ -25,7 +25,7 @@
         <div class="col-md-16">
             <div class="fresh-table full-color-red">
                 <div class="toolbar">
-                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/product/add"> Add</a></button>                
+                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('product_add')}}"> Add</a></button>                
                 </div>
              <table id="fresh-table" class="table">
              <thead>
@@ -49,10 +49,10 @@
                             </ul>
                          </td>
                          <td>
-                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="/product/view/{{ product.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="/product/edit/{{ product.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="/product/delete/{{ product.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="parameters" class="glyphicon glyphicon-search glyphicon-align-left" href="/parameter/{{ product.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('product_view', {'productId': product.id} )}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="{{ path('product_edit', {'productId': product.id} )}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="{{ path('product_delete', {'productId': product.id} )}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="parameters" class="glyphicon glyphicon-search glyphicon-align-left" href="{{ path('parameter_summary', {'productId': product.id} )}}"><i class="fa"></i></a>
                          </td>                         
                      </tr>
         {% endfor %}      

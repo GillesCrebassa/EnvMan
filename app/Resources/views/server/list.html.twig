@@ -25,7 +25,7 @@
         <div class="col-md-16">
             <div class="fresh-table full-color-red">
                 <div class="toolbar">
-                        <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/server/add"> Add</a></button>
+                        <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('server_add') }}"> Add</a></button>
                 </div>
              <table id="fresh-table" class="table">
              <thead>
@@ -39,7 +39,7 @@
               <tbody>
         {% for server in servers %}
                      <tr>
-                         <td><a href="/envdetails/{{ server.id }}">{{ server.name }}</a></td>
+                         <td>{{ server.name }}</a></td>
                          <td>{{ server.os }}</td>
                          <td>{{ server.ip }}</td>
                          <td>{% if server.active %} 
@@ -49,9 +49,9 @@
                              {% endif %}
                          </td>
                          <td>
-                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="/server/view/{{ server.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="/server/edit/{{ server.id }}"><i class="fa"></i></a>
-                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="/server/delete/{{ server.id }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('server_view', {'serverId': server.id}) }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="{{ path('server_edit', {'serverId': server.id}) }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="{{ path('server_delete', {'serverId': server.id}) }}"><i class="fa"></i></a>
                          </td>
                          <td>
                              <ul>

@@ -82,7 +82,7 @@ class ServerCategoryController extends Controller
             ->find($serverCategoryId);
 //        var_dump($servercategory->getProduct()->name);
         $logger->info('GCR:before createform');
-        $form= $this->createForm(ServerCategoryType::class, $servercategory);
+        $form= $this->createForm(new ServerCategoryType(), $servercategory);
         $logger->info('GCR:after createform');
         
         if ($request->getMethod() == 'POST') {

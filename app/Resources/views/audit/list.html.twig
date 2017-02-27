@@ -17,7 +17,7 @@
 <!--
     <div class="row">
         <div class="col-xs-8 col-md-8 col-lg-8 left">
-            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/audit/checkall/{{dataSummary_row.environmentId}}"> Check All</a></button> 
+            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('audit_checkall' , {'envId': dataSummary_row.environmentId }) }}"> Check All</a></button> 
         </div>
     </div>    
 -->
@@ -25,7 +25,7 @@
         <div class="col-md-16">
             <div class="fresh-table full-color-red">
                 <div class="toolbar">
-                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="/audit/checkall/{{dataSummary_row.environmentId}}"> Check All</a></button>
+                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('audit_checkall' , {'envId': dataSummary_row.environmentId }) }}"> Check All</a></button>
                 </div>
              <table id="fresh-table" class="table">
              <thead>
@@ -70,7 +70,7 @@
                          <td>{{ dataSummary_row.fileexist }}</td>
                          <td>{{ dataSummary_row.lastValue }}</td>                         
                          <td>
-                             <a rel="tooltip" title="check" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="/audit/checkparam/{{dataSummary_row.environmentId}}/{{ dataSummary_row.envdetailsId }}/{{ dataSummary_row.parameterId }}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="check" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('audit_checkparam' , {'envId': dataSummary_row.environmentId, 'envDetailsId': dataSummary_row.envdetailsId,'paramId': dataSummary_row.parameterId }) }}"><i class="fa"></i></a>
                          </td>
                      </tr>
         {% endfor %}      
