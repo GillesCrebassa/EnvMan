@@ -31,6 +31,7 @@
              <thead>
                   <th class="text-center" data-field="name" data-sortable="true">Name</th>
                   <th class="text-center" data-field="description" data-sortable="true">Description</th>
+                  <th class="text-center" data-field="hardcoded" data-sortable="true">Hardcoded Value</th>
                   <th class="text-center" data-field="action" data-sortable="false">action</th>
               </thead>
               <tbody>             
@@ -38,6 +39,12 @@
                      <tr>
                          <td>{{ productparameter_row.name }}</td>
                          <td>{{ productparameter_row.description }}</td>
+                         <td>{% if productparameter_row.hardcoded %} 
+                             <i class="glyphicon glyphicon-asterisk "></i>
+                             {% else %} 
+                             <i class=""></i>
+                             {% endif %}
+                         </td>                         
                          <td>
                              <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('parameter_view', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>
                              <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="{{ path('parameter_edit', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>

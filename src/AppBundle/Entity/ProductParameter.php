@@ -37,7 +37,13 @@ class ProductParameter
      */
     private $description;
 
-
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="hardcoded", type="boolean")
+     */
+    private $hardcoded;
+    
     /**
      * 
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productParameter")
@@ -110,6 +116,29 @@ class ProductParameter
         return $this->description;
     }
     
+    /**
+     * Set hardcoded
+     *
+     * @param boolean $hardcoded
+     *
+     * @return productParameter
+     */
+    public function setHardcoded($hardcoded)
+    {
+        $this->hardcoded = $hardcoded;
+
+        return $this;
+    }
+
+    /**
+     * Get hardcoded
+     *
+     * @return bool
+     */
+    public function getHardcoded()
+    {
+        return $this->hardcoded;
+    }
     
     /**
      * Set product
