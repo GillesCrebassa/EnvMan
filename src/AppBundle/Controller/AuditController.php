@@ -142,6 +142,7 @@ class AuditController extends Controller {
                         $productName = $products_row->getName();
                         $parameterId = $productParameter_row->getId();
                         $parameterName = $productParameter_row->getName();
+                        $parameterHardcoded = $productParameter_row->getHardcoded();
                         $dataSummary[] = array(
                             'environmentId' => $environmentId,
                             'environmentName' => $environmentName,
@@ -154,6 +155,7 @@ class AuditController extends Controller {
                             'productName' => $productName,
                             'parameterId' => $parameterId,
                             'parameterName' => $parameterName,
+                            'parameterHardcoded'=>$parameterHardcoded,
                             'fileexist' => $this->auditCheckParamExist($envdetails_row->getId(), $productParameter_row->getId()),
                             'lastValue' => $this->auditLastValue($envdetails_row->getId(), $productParameter_row->getId()),
                         );
@@ -163,6 +165,7 @@ class AuditController extends Controller {
             }
         }
         return $this->render('audit/list.html.twig', array(
+                    'envId' => $envId,
                     'dataSummary' => $dataSummary,
         ));
 
@@ -193,6 +196,29 @@ class AuditController extends Controller {
         return $this->redirectToRoute('audit_summary',array('envId'=>$envId));
     }
 
+    /**
+     * TODO ADD PARAMETERS Server, environment, parameter
+     * @Route("/audit/editparam/{envId}/{envDetailsId}/{paramId}", name="audit_editparam")
+     */
+    public function auditCheckParamListAction2($envId,$envDetailsId, $paramId) {
+
+// TODO change to edit mode if the param is hardcoded
+        try {
+            $this->auditCheckParamDetails($envDetailsId, $paramId);
+        }
+        catch(\RuntimeException $e )
+        {
+//            return new Response('<html><body>Error : ' . $e->getMessage(). ' !</body></html>');
+            $this->addFlash(
+                   'danger', $e->getMessage()
+                    );          
+        }
+//        return new Response('<html><body>Hello '.$process->getErrorOutput().' : root_dir:'.$ssh_dir.': command:'.$command.' result : '.$result.' !</body></html>');
+
+
+//        return new Response('<html><body>Hello result : ' . $result . ' !</body></html>');
+        return $this->redirectToRoute('audit_summary',array('envId'=>$envId));
+    }
     
     /**
      * TODO ADD PARAMETERS Server, environment, parameter

@@ -14,18 +14,11 @@
     <div class="row spacer">
         <br>        
     </div>        
-<!--
-    <div class="row">
-        <div class="col-xs-8 col-md-8 col-lg-8 left">
-            <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('audit_checkall' , {'envId': dataSummary_row.environmentId }) }}"> Check All</a></button> 
-        </div>
-    </div>    
--->
     <div class="row">
         <div class="col-md-16">
             <div class="fresh-table full-color-red">
                 <div class="toolbar">
-                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('audit_checkall' , {'envId': dataSummary_row.environmentId }) }}"> Check All</a></button>
+                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('audit_checkall' , {'envId': envId }) }}"> Check All</a></button>
                 </div>
              <table id="fresh-table" class="table">
              <thead>
@@ -67,10 +60,19 @@
                          <td>{{ dataSummary_row.productName }}</td>
                          <td>{{ dataSummary_row.parameterName }}</td>
                          <!-- TODO add icon (ok / nok) -->
-                         <td>{{ dataSummary_row.fileexist }}</td>
+                         <td>{% if dataSummary_row.fileexist %} 
+                             <i class="glyphicon glyphicon-ok-circle"></i>
+                             {% else %} 
+                             <i class="glyphicon glyphicon-ban-circle"></i>
+                             {% endif %}
+                         </td>                         
                          <td>{{ dataSummary_row.lastValue }}</td>                         
                          <td>
+                             {% if dataSummary_row.parameterHardcoded %}
+                             <a rel="tooltip" title="check" class="glyphicon glyphicon-edit     glyphicon-align-left" href="{{ path('audit_editparam' , {'envId': dataSummary_row.environmentId, 'envDetailsId': dataSummary_row.envdetailsId,'paramId': dataSummary_row.parameterId }) }}"><i class="fa"></i></a>
+                             {% else %}
                              <a rel="tooltip" title="check" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('audit_checkparam' , {'envId': dataSummary_row.environmentId, 'envDetailsId': dataSummary_row.envdetailsId,'paramId': dataSummary_row.parameterId }) }}"><i class="fa"></i></a>
+                             {% endif %}
                          </td>
                      </tr>
         {% endfor %}      
