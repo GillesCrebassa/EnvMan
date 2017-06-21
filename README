@@ -1,5 +1,12 @@
 # Install:
 
+
+composer :
+php composer.phar self-update
+php composer.phar update
+# if issue with memory limit:
+php -d memory_limit=-1 composer.phar update
+
 fill the file app/config/parameters.yml for parameters database_*
 # to create new entity
 php app/console doctrine:generate:entity
