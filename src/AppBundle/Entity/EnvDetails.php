@@ -44,6 +44,13 @@ class EnvDetails
     /**
      * @var string
      *
+     * @ORM\Column(name="parameter", type="string", length=50)
+     */
+    private $parameter;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="string", length=255, nullable = true)
      */
     private $description;
@@ -130,6 +137,30 @@ class EnvDetails
         return $this;
     }
 
+    /**
+     * Get user
+     *
+     * @return string
+     */
+    public function getParameter()
+    {
+        return $this->parameter;
+    }
+
+    /**
+     * Set user
+     *
+     * @param string $parameter
+     *
+     * @return EnvDetails
+     */
+    public function setParameter($parameter)
+    {
+        $this->parameter = $parameter;
+
+        return $this;
+    }
+    
     /**
      * Set description
      *

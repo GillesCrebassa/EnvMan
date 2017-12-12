@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}Audit Summary{% endblock %}
+{% block title %}Audit Summary {{ envName }}{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -8,7 +8,7 @@
     <br>
     <div class="row">
         <div class="col-xs-8 col-md-8 col-lg-8 centered">
-            <h1>Audit List</h1>
+            <h1>Audit List for {{ envName }}</h1>
         </div>
     </div>
     <div class="row spacer">

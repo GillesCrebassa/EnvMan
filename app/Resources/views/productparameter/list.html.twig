@@ -49,6 +49,7 @@
                              <a rel="tooltip" title="view" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('parameter_view', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>
                              <a rel="tooltip" title="edit" class="glyphicon glyphicon-edit glyphicon-align-left" href="{{ path('parameter_edit', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>
                              <a rel="tooltip" title="delete" class="glyphicon glyphicon-minus-sign glyphicon-align-left" href="{{ path('parameter_delete', {'productId': product.id, 'parameterId': productparameter_row.id })}}"><i class="fa"></i></a>
+                             <a rel="tooltip" title="audit" class="glyphicon glyphicon-cloud-upload glyphicon-align-left" href="{{ path('audit_product_parameter_summary', {'productparameterId': productparameter_row.id })}}"><i class="fa"></i></a>                             
                          </td>         
                      </tr>
         {% endfor %}      

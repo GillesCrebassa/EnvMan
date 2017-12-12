@@ -20,4 +20,20 @@ class ServerCategoryRepository extends \Doctrine\ORM\EntityRepository
             )
             ->getResult();
     } 
+    
+    
+    public function findAllByProductId($productId)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'SELECT sc FROM AppBundle:ServerCategory sc 
+                JOIN sc.product p
+                WHERE p.id = :productId'
+            )->setParameter('productId', $productId);
+        try {
+            return $query->getResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
+            return null;
+        }
+    }    
 }

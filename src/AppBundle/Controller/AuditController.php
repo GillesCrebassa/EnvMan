@@ -109,15 +109,16 @@ class AuditController extends Controller {
     }
 
     /**
-     * @Route("/audit/{envId}", name="audit_summary",requirements  = { "envId" = "\d+" },)
+     * @Route("/audit/environment/{envId}", name="audit_environment_summary",requirements  = { "envId" = "\d+" },)
      */
-    public function auditListAction($envId) {
+    public function auditEnvironmentListAction($envId) {
         $dataSummary = [];
         $envdetails = [];
         $repository = $this->getDoctrine()->getRepository('AppBundle:Environment');
         $environment = $repository->findByEnvId($envId);
         if ($environment != null) {
             $envdetails = $environment->getEnvDetails();
+            $envName = $environment->getName();
             //        var_dump("environmentName:".$environment->getName());
             foreach ($envdetails as $envdetails_row) {
                 //            var_dump("envdetaileId:".$envdetails_row->getId());
@@ -164,14 +165,88 @@ class AuditController extends Controller {
                 }
             }
         }
-        return $this->render('audit/list.html.twig', array(
+        return $this->render('audit/list_environment.html.twig', array(
                     'envId' => $envId,
+                    'envName' =>$envName,
                     'dataSummary' => $dataSummary,
         ));
 
 //        return new Response('<html><body>Hello result : OK !</body></html>');
     }
 
+    
+    
+    /**
+     * @Route("/audit/productparameter/{productparameterId}", name="audit_product_parameter_summary",requirements  = { "productparameterId" = "\d+" },)
+     */
+    public function auditProductParameterListAction($productparameterId) {
+        $dataSummary = [];
+        $envdetails = [];
+        $ProductParameterRepo = $this->getDoctrine()->getRepository('AppBundle:ProductParameter');
+        $productParameter = $ProductParameterRepo->find($productparameterId);
+        if ($productParameter != null) {
+            $product = $productParameter->getProduct();
+            $productName = $product->getName();
+            
+            
+            $ServerCategoryRepo = $this->getDoctrine()->getRepository('AppBundle:ServerCategory');
+            $ServerCategory = $ServerCategoryRepo->findAllByProductId($product->getId());
+            //        var_dump("environmentName:".$environment->getName());
+            foreach ($ServerCategory as $ServerCategory_row) {
+                var_dump($ServerCategory_row->getName());
+                /*
+                foreach ($products as $products_row) {
+                    //                var_dump("Product:".$products_row->getName());
+                    $productParameter = $products_row->getProductParameter();
+                    foreach ($productParameter as $productParameter_row) {
+                        //                    var_dump("parameter:".$productParameter_row->getName());
+                        $environmentId = $environment->getId();
+                        $environmentName = $environment->getName();
+                        $envdetailsId = $envdetails_row->getId();
+                        $serverId = $envdetails_row->getServer()->getId();
+                        $serverName = $envdetails_row->getServer()->getName();
+                        $servernameCategory = $envdetails_row->getServerCategory()->getName();
+                        $serverUser = $envdetails_row->getUser();
+                        $productId = $products_row->getId();
+                        $productName = $products_row->getName();
+                        $parameterId = $productParameter_row->getId();
+                        $parameterName = $productParameter_row->getName();
+                        $parameterHardcoded = $productParameter_row->getHardcoded();
+                        $dataSummary[] = array(
+                            'environmentId' => $environmentId,
+                            'environmentName' => $environmentName,
+                            'envdetailsId' => $envdetailsId,
+                            'serverId' => $serverId,
+                            'serverName' => $serverName,
+                            'servernameCategory' => $servernameCategory,
+                            'serverUser' => $serverUser,
+                            'productId' => $productId,
+                            'productName' => $productName,
+                            'parameterId' => $parameterId,
+                            'parameterName' => $parameterName,
+                            'parameterHardcoded'=>$parameterHardcoded,
+                            'fileexist' => $this->auditCheckParamExist($envdetails_row->getId(), $productParameter_row->getId()),
+                            'lastValue' => $this->auditLastValue($envdetails_row->getId(), $productParameter_row->getId()),
+                        );
+                        //                    var_dump($dataSummary);
+                    }
+                }
+                 * 
+                 */
+            }
+            
+        }
+        return $this->render('audit/list_product_parameter.html.twig', array(
+                    'productparameterId' => $productparameterId,
+                    'productparameterName' => $productparameterName,
+                    'productName' => $productName,
+                    'dataSummary' => $dataSummary,
+        ));
+
+//        return new Response('<html><body>Hello result : OK !</body></html>');
+    }
+    
+    
     /**
      * TODO ADD PARAMETERS Server, environment, parameter
      * @Route("/audit/checkparam/{envId}/{envDetailsId}/{paramId}", name="audit_checkparam")
@@ -193,7 +268,7 @@ class AuditController extends Controller {
 
 
 //        return new Response('<html><body>Hello result : ' . $result . ' !</body></html>');
-        return $this->redirectToRoute('audit_summary',array('envId'=>$envId));
+        return $this->redirectToRoute('audit_environment_summary',array('envId'=>$envId));
     }
 
     /**
@@ -273,12 +348,14 @@ class AuditController extends Controller {
             $server_ssh = $envdetails->getServer()->getName();
             $productParameterName = $productParameter->getName();
             $productName = $productParameter->getProduct()->getName();
+            $parameter = $envdetails->getParameter();
             // TODO change by /hosttype/product_parameter
             $logger->debug('GCR:user_ssh:' . $user_ssh);
             $logger->debug('GCR:pass_ssh:' . $pass_ssh);
             $logger->debug('GCR:server_ssh:' . $server_ssh);
             $logger->debug('GCR:productParameterName:' . $productParameterName);
             $logger->debug('GCR:productName:' . $productName);
+            $logger->debug('GCR:parameter:'.$parameter);
             $OSType = $envdetails->getServer()->getOs();
             $script_name = $OSType . '/' . $productName . '_' . $productParameterName . '.sh';
             $logger->debug('GCR:script_name:' . $script_name);
@@ -310,6 +387,11 @@ class AuditController extends Controller {
                 $sftp->send($ssh_local_script_path, $ssh_remote_script_path);
                 $sftp->chmod($ssh_remote_script_path, 0700);
                 $exec = $session->getExec();
+                if (!Empty($parameter))
+                {
+                    $ssh_remote_script_path = $ssh_remote_script_path." \"".$parameter."\"";
+                }
+                $logger->debug('GCR:ssh_remote_script_path:'.$ssh_remote_script_path);
                 $result = $exec->run($ssh_remote_script_path, null, array(), 80, 25, SSH2_TERM_UNIT_CHARS, 1);
 
                 $audit = new Audit();

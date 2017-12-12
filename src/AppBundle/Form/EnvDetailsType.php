@@ -28,6 +28,7 @@ class EnvDetailsType extends AbstractType
             ->add('servercategory')
             ->add('description','text')
             ->add('user','textarea')
+            ->add('parameter','textarea')                
                 // TODO remove environment, already know in the controller
             ->add('environment')
             ->add('server')

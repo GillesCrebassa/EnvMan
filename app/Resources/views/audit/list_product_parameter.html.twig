@@ -1,0 +1,133 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Audit Summary {{ envName }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-xs-8 col-md-8 col-lg-8 centered">
+            <h1>Audit List for {{ envName }}</h1>
+        </div>
+    </div>
+    <div class="row spacer">
+        <br>        
+    </div>        
+    <div class="row">
+        <div class="col-md-16">
+            <div class="fresh-table full-color-red">
+                <div class="toolbar">
+                    <button type="button" class="btn btn-default"/><span class="glyphicon glyphicon-plus-sign glyphicon-align-left"></span><a href="{{ path('audit_checkall' , {'envId': envId }) }}"> Check All</a></button>
+                </div>
+             <table id="fresh-table" class="table">
+             <thead>
+                  <th class="text-center" data-field="envName" data-sortable="true">environmentName</th>
+                  <th class="text-center" data-field="servername" data-sortable="true">serverName</th>
+<!--                  <th class="text-center" data-field="servernamecateg" data-sortable="true">servernameCategory</th> -->
+                  <th class="text-center" data-field="serverUser" data-sortable="true">serverUser</th>
+                  <th class="text-center" data-field="productName" data-sortable="true">productName</th>
+                  <th class="text-center" data-field="parameterName" data-sortable="true">parameterName</th>
+                  <th class="text-center" data-field="scriptAvailable" data-sortable="true">script available</th>
+                  <th class="text-center" data-field="lastValue" data-sortable="true">last value</th>
+                  <th class="text-center" data-field="action" data-sortable="true">Action</th>
+              </thead>
+              <tbody>             
+        {% for dataSummary_row in dataSummary if dataSummary_row %}
+                     <tr>
+                         {#
+                    $dataSummary[] = array(
+                        'environmentId'=> $environmentId,
+                        'environmentName' =>$environmentName,
+                        'envdetailsId' => $envdetailsId,
+                        'serverId' => $serverId,
+                        'serverName' => $serverName,
+                        'servernameCategory' => $servernameCategory,        
+                        'serverUser' => $serverUser,
+                        'productId' => $productId,
+                        'productName'=> $productName,
+                        'parameterId'=> $parameterId,
+                        'parameterName' => $parameterName,        
+                    );
+                    #}
+                    
+
+
+                         <td>{{ dataSummary_row.environmentName }}</td>
+<!--                         <td>{{ dataSummary_row.serverName }}</td> -->
+                         <td>{{ dataSummary_row.servernameCategory }}</td>
+                         <td>{{ dataSummary_row.serverUser }}</td>
+                         <td>{{ dataSummary_row.productName }}</td>
+                         <td>{{ dataSummary_row.parameterName }}</td>
+                         <!-- TODO add icon (ok / nok) -->
+                         <td>{% if dataSummary_row.fileexist %} 
+                             <i class="glyphicon glyphicon-ok-circle"></i>
+                             {% else %} 
+                             <i class="glyphicon glyphicon-ban-circle"></i>
+                             {% endif %}
+                         </td>                         
+                         <td>{{ dataSummary_row.lastValue }}</td>                         
+                         <td>
+                             {% if dataSummary_row.parameterHardcoded %}
+                             <a rel="tooltip" title="check" class="glyphicon glyphicon-edit     glyphicon-align-left" href="{{ path('audit_editparam' , {'envId': dataSummary_row.environmentId, 'envDetailsId': dataSummary_row.envdetailsId,'paramId': dataSummary_row.parameterId }) }}"><i class="fa"></i></a>
+                             {% else %}
+                             <a rel="tooltip" title="check" class="glyphicon glyphicon-info-sign glyphicon-align-left" href="{{ path('audit_checkparam' , {'envId': dataSummary_row.environmentId, 'envDetailsId': dataSummary_row.envdetailsId,'paramId': dataSummary_row.parameterId }) }}"><i class="fa"></i></a>
+                             {% endif %}
+                         </td>
+                     </tr>
+        {% endfor %}      
+              </tbody>
+       </table>
+     </div>
+    </div><!-- end col-lg-12 -->
+  </div><!-- end row -->
+</div><!-- end container -->
+{%  endblock body %}
+
+{% block javaScript_extra %}
+<!-- TODO add in specific twig -->
+<script type="text/javascript" src="{{ asset('assets/js/bootstrap-table.js') }}"></script>
+<script type="text/javascript">
+        var $table = $('#fresh-table'),
+            full_screen = false;
+        $().ready(function(){
+            $table.bootstrapTable({
+                toolbar: ".toolbar",
+    
+                showRefresh: false,
+                search: true,
+                showToggle: false,
+                showColumns: false,
+                pagination: true,
+                striped: true,
+                pageSize: 25,
+                pageList: [8,10,25,50,100],
+                
+                formatShowingRows: function(pageFrom, pageTo, totalRows){
+                    //do nothing here, we don't want to show the text "showing x of y from..." 
+                },
+                formatRecordsPerPage: function(pageNumber){
+                    return pageNumber + " rows visible";
+                },
+                icons: {
+                    refresh: 'fa fa-refresh',
+                    toggle: 'fa fa-th-list',
+                    columns: 'fa fa-columns',
+                    detailOpen: 'fa fa-plus-circle',
+                    detailClose: 'fa fa-minus-circle'
+                }
+            });
+            $(window).resize(function () {
+                $table.bootstrapTable('resetView');
+            });
+        });
+</script>
+{% endblock javaScript_extra %}
+
+{% block stylesheets_extra %} 
+<link href="{{ asset('assets/css/fresh-bootstrap-table.css')}}" rel="stylesheet">
+<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="http://fonts.googleapis.com/css?family=Roboto:400,700,300" rel="stylesheet" type="text/css">
+{% endblock stylesheets_extra %} 
+
+            
