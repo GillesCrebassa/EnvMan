@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfiles/Dockerfile_web --tag envman:$(date +%s)
+      run: docker build . --file docker/nginx/Dockerfile --tag envman_nginx:$(date +%s)
